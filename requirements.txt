@@ -19,7 +19,7 @@ motor
 aiohttp
 aiofiles
 pytz
-ffmpeg
+ffmpeg==1.4
 umongo==3.1.0
 speedtest-cli
 Flask==1.1.2
@@ -27,14 +27,11 @@ gunicorn==20.1.0
 Jinja2==3.0.3
 werkzeug==2.0.2
 itsdangerous==2.0.1
-ffmpeg
 youtube-dl
-cloudscraper
 pytube
-cryptography
-PyJWT
-sqlalchemy
-pyopenssl
-wget
 bs4
 beautifulsoup4
+pytube
+cloudscraper
+m3u8
+wget
