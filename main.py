@@ -31,11 +31,12 @@ photologo = 'https://tinypic.host/images/2025/02/07/DeWatermark.ai_1738952933236
 photoyt = 'https://tinypic.host/images/2025/03/18/YouTube-Logo.wine.png'
 
 async def show_random_emojis(message):
-    emojis = ['🐼', '🐶', '🐅', '⚡️', '🚀', '🌟', '🔥', '✨']
+    emojis = ['🥰', '😘', '❤️', '⚡️', '🚀', '🌟', '🔥', '✨','😍']
     emoji_message = await message.reply_text(' '.join(random.choices(emojis, k=1)))
     return emoji_message
-    
-credit ="𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎" 
+
+owner_id = 7341059064
+
 # Initialize the bot
 bot = Client(
     "bot",
@@ -44,141 +45,34 @@ bot = Client(
     bot_token=BOT_TOKEN
 )
 
-# Define aiohttp routes
-routes = web.RouteTableDef()
+auth_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZnJlZSB1c2VyICIsInRnX3VzZXJuYW1lIjoiUFVCTElDIFVTRSIsImlhdCI6MTc0OTYxOTUzM30.oRI_9FotOi3Av9S2Wrr2g6VXUHJEknWVY91-TZ5XdNg"
 
-@routes.get("/", allow_head=True)
-async def root_route_handler(request):
-    return web.json_response("https://text-leech-bot-for-render.onrender.com/")
 
-async def web_server():
-    web_app = web.Application(client_max_size=30000000)
-    web_app.add_routes(routes)
-    return web_app
-
-async def start_bot():
-    await bot.start()
-    print("Bot is up and running")
-
-async def stop_bot():
-    await bot.stop()
-
-async def main():
-    if WEBHOOK:
-        # Start the web server
-        app_runner = web.AppRunner(await web_server())
-        await app_runner.setup()
-        site = web.TCPSite(app_runner, "0.0.0.0", PORT)
-        await site.start()
-        print(f"Web server started on port {PORT}")
-
-    # Start the bot
-    await start_bot()
-
-    # Keep the program running
-    try:
-        while True:
-            await bot.polling()  # Run forever, or until interrupted
-    except (KeyboardInterrupt, SystemExit):
-        await stop_bot()
-    
-
-async def start_bot():
-    await bot.start()
-    print("Bot is up and running")
-
-async def stop_bot():
-    await bot.stop()
-
-async def main():
-    if WEBHOOK:
-        # Start the web server
-        app_runner = web.AppRunner(await web_server())
-        await app_runner.setup()
-        site = web.TCPSite(app_runner, "0.0.0.0", PORT)
-        await site.start()
-        print(f"Web server started on port {PORT}")
-
-    # Start the bot
-    await start_bot()
-
-    # Keep the program running
-    try:
-        while True:
-            await asyncio.sleep(3600)  # Run forever, or until interrupted
-    except (KeyboardInterrupt, SystemExit):
-        await stop_bot()
-        
-import random
-
-# Inline keyboard for start command
-keyboard = InlineKeyboardMarkup(
-    [
-        [
-            InlineKeyboardButton(text="📞 Contact", url="https://t.me/Oye_brijesh"),
-            InlineKeyboardButton(text="🛠️ Help", url="https://t.me/+qutXY5xbN0I4OWY1"),
-        ],
-    ]
-)
-
-# Inline keyboard for busy status
-Busy = InlineKeyboardMarkup(
-    [
-        [
-            InlineKeyboardButton(text="📞 Contact", url="https://t.me/Oye_brijesh"),
-            InlineKeyboardButton(text="🛠️ Help", url="https://t.me/+qutXY5xbN0I4OWY1"),
-        ],
-    ]
-)
-
-# Image URLs for the random image feature
-image_urls = [
-    "https://i.ibb.co/LtqjVy7/file-3958.jpg",
-    "https://tinypic.host/images/2025/02/07/DeWatermark.ai_1738952933236-1.png",
-    # Add more image URLs as needed
-]
 
 cookies_file_path= "youtube_cookies.txt"
 
 
-@bot.on_message(filters.command(["drm"]))
-async def help_handler(client: Client, m: Message):
-    await bot.send_message(m.chat.id, text= (
-        "<pre><code> 🎉 Welcome to DRM Bot! 🎉</code></pre>\n\n"
-        "You can have access to download all Non-DRM+AES Encrypted URLs 🔐 including:\n\n"
-        "Send /help for free users.\n\n"
-        "<pre><code>• 📚 Appx Zip+Encrypted Url\n"
-        "• 🎓 Classplus DRM+ NDRM\n"
-        "• 🧑‍🏫 PhysicsWallah DRM\n"
-        "• 📚 CareerWill + PDF\n"
-        "• 🎓 Khan GS\n"
-        "• 🎓 Study Iq DRM\n"
-        "• 🚀 APPX + APPX Enc PDF\n"
-        "• 🎓 Vimeo Protection\n"
-        "• 🎓 Brightcove Protection\n"
-        "• 🎓 Visionias Protection\n"
-        "• 🎓 Zoom Video\n"
-        "• 🎓 Utkarsh Protection(Video + PDF)\n"
-        "• 🎓 All Non DRM+AES Encrypted URLs\n"
-        "• 🎓 MPD URLs if the key is known (e.g., Mpd_url?key=key XX:XX)</code></pre>\n\n"
-        "🚀 You are not subscribed to any plan yet!\n\n"
-        "<pre><code>Contact to 𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎 for buy membership.</code></pre>"
-    ))
+auth_users = [1226915008,7341059064,5817712634]
 
-@bot.on_message(filters.command(["help"]))
-async def txt_handler(client: Client, m: Message):
-    await bot.send_message(m.chat.id, text= (
-        "<pre><code> 🎉Congrats! You are using MR BRIJESH:</code></pre>\n┣\n"
-        "┣⪼01. Send /start - To Check Bot \n┣\n"
-        "┣⪼02. Send /brijesh - for extract txt file\n┣\n"
-        "┣⪼03. Send /y2t - YouTube to .txt Convert\n┣\n"
-        "┣⪼04. Send /logs - To see Bot Working Logs\n┣\n"
-        "┣⪼05. Send /cookies - To update YT cookies.\n┣\n"
-        "┣⪼06. Send /stop - Stop the Running Task. 🚫\n┣\n"
-        "┣⪼🔗  Direct Send Link For Extract (with https://)\n┣\n"
-        "<pre><code>If you have any questions, feel free to ask! 💬</code></pre>"
-        )
-    ) 
+# Command to authorize a user
+@bot.on_message(filters.command("auth") & filters.private)
+async def authorize_user(client, message):
+    if message.from_user.id == owner_id:  # Ensure only the owner can authorize
+        try:
+            user_id = int(message.text.split()[1])
+            if user_id not in auth_users:
+                auth_users.append(user_id)
+                await message.reply("User authorized successfully.")
+            else:
+                await message.reply("User is already authorized.")
+        except (IndexError, ValueError):
+            await message.reply("Please provide a valid user ID.")
+    else:
+        await message.reply("You are not authorized to use this command.")
+
+# Function to check authorization
+async def is_auth(user_id):
+    return user_id in auth_users or user_id == owner_id
 
 
 @bot.on_message(filters.command("cookies") & filters.private)
@@ -189,7 +83,7 @@ async def cookies_handler(client: Client, m: Message):
     )
 
     try:
-        # Wait for the user to send the cookies file
+        # Wait for the user to send the cookies filel
         input_message: Message = await client.listen(m.chat.id)
 
         # Validate the uploaded file
@@ -215,69 +109,15 @@ async def cookies_handler(client: Client, m: Message):
     except Exception as e:
         await m.reply_text(f"⚠️ An error occurred: {str(e)}")
         
-# Start command handler
-@bot.on_message(filters.command(["start"]))
-async def start_command(bot: Client, message: Message):
-    # Send a loading message
-    loading_message = await bot.send_message(
-        chat_id=message.chat.id,
-        text="Loading... ⏳🔄"
-    )
-  
-    # Choose a random image URL
-    random_image_url = random.choice(image_urls)
+@bot.on_message(filters.command(["start"]) )
+async def account_login(bot: Client, m: Message):
+    editable = await m.reply_text(f"**Hi 👋.. How are you...?**\n**Bot Made BY 𝐀𝐧𝐤𝐢𝐭 𝐒𝐡𝐚𝐤𝐲𝐚™🇮🇳**")
+
+@bot.on_message(filters.command(["stop"]) )
+async def restart_handler(_, m):
+    await m.reply_text("🚦**STOPPED**🚦", True)
+    os.execl(sys.executable, sys.executable, *sys.argv)
     
-    # Caption for the image
-    caption = (
-        "<pre><code>🌟 Welcome Boss😸! 🌟</code></pre>\n\n"
-        "𝐇𝐞𝐥𝐥𝐨 𝐃𝐞𝐚𝐫 👋!\n\n➠ 𝐈 𝐚𝐦 𝐚 𝐓𝐞𝐱𝐭 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐞𝐫 𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐖𝐢𝐭𝐡 ♥️\n\n\➠ Can Extract Videos & PDFs From Your Text File and Upload to Telegram!
-➠ For Guide Use Command /help 📖
-
-\n\n➠ Use /drm Command to Download From TXT File 📄.\n\n<pre><code>➠ 𝐌𝐚𝐝𝐞 𝐁𝐲:@RAO_SAHAB_JI_BOT 😜</code></pre"
-    )
-      
-    await asyncio.sleep(1)
-    await loading_message.edit_text(
-        "Initializing Uploader bot... 🤖\n\n"
-        "Progress: ⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0%\n\n"
-    )
-
-    await asyncio.sleep(1)
-    await loading_message.edit_text(
-        "Loading features... ⏳\n\n"
-        "Progress: 🟥🟥⬜⬜⬜⬜⬜⬜ 25%\n\n"
-    )
-    
-    await asyncio.sleep(1)
-    await loading_message.edit_text(
-        "This may take a moment, sit back and relax! 😊\n\n"
-        "Progress: 🟧🟧🟧🟧⬜⬜⬜⬜ 50%\n\n"
-    )
-
-    await asyncio.sleep(1)
-    await loading_message.edit_text(
-        "Checking Bot Status... 🔍\n\n"
-        "Progress: 🟨🟨🟨🟨🟨🟨⬜⬜ 75%\n\n"
-    )
-
-    await asyncio.sleep(1)
-    await loading_message.edit_text(
-        "Checking status Ok... \n**ᴊᴏɪɴ ᴏᴜʀ <a href='https://t.me/+1e-r94cF6yE3NzA1'>ᴛᴇʟᴇɢʀᴀᴍ Group</a>**\n\n"
-        "Progress:🟩🟩🟩🟩🟩🟩🟩🟩🟩 100%\n\n"
-    )
-        
-    # Send the image with caption and buttons
-    await bot.send_photo(
-        chat_id=message.chat.id,
-        photo=random_image_url,
-        caption=caption,
-        reply_markup=keyboard
-    )
-
-    # Delete the loading message
-    await loading_message.delete()
-    
-
 @bot.on_message(filters.command(["logs"]) )
 async def send_logs(bot: Client, m: Message):
     try:
@@ -288,10 +128,6 @@ async def send_logs(bot: Client, m: Message):
     except Exception as e:
         await m.reply_text(f"Error sending logs: {e}")
 
-@bot.on_message(filters.command(["stop"]) )
-async def restart_handler(_, m):
-    await m.reply_text("🦅ˢᵗᵒᵖᵖᵉᵈ ᵇᵃᵇʸ💞", True)
-    os.execl(sys.executable, sys.executable, *sys.argv)
 
 @bot.on_message(filters.command(["y2t"]))
 async def youtube_to_txt(client, message: Message):
@@ -372,14 +208,18 @@ async def youtube_to_txt(client, message: Message):
     # Remove the temporary text file after sending
     os.remove(txt_file)
 
-@bot.on_message(filters.command(["brijesh"]) )
+@bot.on_message(filters.command(["ankit","deaduser"]) )
 async def txt_handler(bot: Client, m: Message):
-    editable = await m.reply_text(f"<pre><code>**🔹Hi I am Poweful TXT Downloader📥 Bot.**</code></pre>\n<pre><code>🔹**Send me the TXT file and wait.**</code></pre>")
+    user_id = m.from_user.id
+    if user_id not in auth_users:
+        await m.reply_text("**HEY BUDDY THIS IS ONLY FOR MY ADMINS  **")
+    else:
+        editable = await m.reply_text(f"<pre><code>**🔹Hi I am Poweful TXT Downloader📥 Bot.**</code></pre>\n<pre><code>🔹**Send me the TXT file and wait.**</code></pre>")
     input: Message = await bot.listen(editable.chat.id)
     x = await input.download()
     await input.delete(True)
     file_name, ext = os.path.splitext(os.path.basename(x))
-    credit = f"RAO SAHAB"
+    credit ="𝐀𝐧𝐤𝐢𝐭 𝐒𝐡𝐚𝐤𝐲𝐚🇮🇳" 
     try:    
         with open(x, "r") as f:
             content = f.read()
@@ -410,7 +250,7 @@ async def txt_handler(bot: Client, m: Message):
     else:
         b_name = raw_text0
 
-    await editable.edit("<pre><code>╭━━━━❰ᴇɴᴛᴇʀ ʀᴇꜱᴏʟᴜᴛɪᴏɴ❱━━➣ </code></pre>\n┣━━⪼ send `144`  for 144p\n┣━━⪼ send `240`  for 240p\n┣━━⪼ send `360`  for 360p\n┣━━⪼ send `480`  for 480p\n┣━━⪼ send `720`  for 720p\n┣━━⪼ send `1080` for 1080p\n<pre><code>╰━━⌈⚡[`🦋RAO SAHAB 🦋`]⚡⌋━━➣ </code></pre>")
+    await editable.edit("<pre><code>╭━━━━❰ᴇɴᴛᴇʀ ʀᴇꜱᴏʟᴜᴛɪᴏɴ❱━━➣ </code></pre>\n┣━━⪼ send `144`  for 144p\n┣━━⪼ send `240`  for 240p\n┣━━⪼ send `360`  for 360p\n┣━━⪼ send `480`  for 480p\n┣━━⪼ send `720`  for 720p\n┣━━⪼ send `1080` for 1080p\n<pre><code>╰━━⌈⚡[ 𝐀𝐧𝐤𝐢𝐭 𝐒𝐡𝐚𝐤𝐲𝐚🇮🇳 ]⚡⌋━━➣ </code></pre>")
     input2: Message = await bot.listen(editable.chat.id)
     raw_text2 = input2.text
     quality = input2.text
@@ -433,30 +273,26 @@ async def txt_handler(bot: Client, m: Message):
     except Exception:
             res = "UN"
 
-    await editable.edit("<pre><code>**Enter Your Name**</code></pre>\n<pre><code>Send `1` for use default</code></pre>")
+    await editable.edit("<pre><code>**Enter Your Name**</code></pre>\n<pre><code>Send `de` for use default</code></pre>")
     input3: Message = await bot.listen(editable.chat.id)
     raw_text3 = input3.text
     await input3.delete(True)
-    # Default credit message
-    credit = "️RAO SAHAB 🕊️⁪⁬⁮⁮⁮"
-    if raw_text3 == '1':
-        CR = 'RAO SAHAB 🕊️'
-    elif raw_text3:
-        CR = raw_text3
-    else:
+    if raw_text3 == 'de':
         CR = credit
+    else:
+        CR = raw_text3
 
     pw_token = f"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NDI4NDE2NDAuNTQyLCJkYXRhIjp7Il9pZCI6IjY1OWZjZWU5YmI4YjFkMDAxOGFmYTExZCIsInVzZXJuYW1lIjoiODUzOTkyNjE5MCIsImZpcnN0TmFtZSI6IlNoaXR0dSIsImxhc3ROYW1lIjoiU2luZ2giLCJvcmdhbml6YXRpb24iOnsiX2lkIjoiNWViMzkzZWU5NWZhYjc0NjhhNzlkMTg5Iiwid2Vic2l0ZSI6InBoeXNpY3N3YWxsYWguY29tIiwibmFtZSI6IlBoeXNpY3N3YWxsYWgifSwiZW1haWwiOiJzaGl0dHVrdW1hcjM3QGdtYWlsLmNvbSIsInJvbGVzIjpbIjViMjdiZDk2NTg0MmY5NTBhNzc4YzZlZiJdLCJjb3VudHJ5R3JvdXAiOiJJTiIsInR5cGUiOiJVU0VSIn0sImlhdCI6MTc0MjIzNjg0MH0.oIubH2nR-onRJrzCAGcGU96tsmAzRYyXEnlaA4oIvcU"
-    await editable.edit("<pre><code>**Enter Your PW Token For 𝐌𝐏𝐃 𝐔𝐑𝐋**</code></pre>\n<pre><code>Send  `0`  for use default</code></pre>")
+    await editable.edit("<pre><code>**Enter Your CP Or Token For CP Url & 𝐌𝐏𝐃 𝐔𝐑𝐋**</code></pre>\n<pre><code>Send  `unknown`  for use default</code></pre>")
     input4: Message = await bot.listen(editable.chat.id)
     raw_text4 = input4.text
     await input4.delete(True)
-    if raw_text4 == '0':
+    if raw_text4 == '?':
         PW = pw_token
     else:
         PW = raw_text4
         
-    await editable.edit("<pre><code>⚪Send ☞ `no` for **video** format</code></pre>\n<pre><code>🔘Send ☞ `No` for **Document** format</code></pre>")
+    await editable.edit("<pre><code>⚪Send ☞ jpg url for **Video Thumbnail** format</code></pre>\n<pre><code>🔘Send ☞ jpg url for **Document Thumbnail** format</code></pre>")
     input6 = message = await bot.listen(editable.chat.id)
     raw_text6 = input6.text
     await input6.delete(True)
@@ -496,12 +332,15 @@ async def txt_handler(bot: Client, m: Message):
                         text = await resp.text()
                         url = re.search(r"(https://.*?playlist.m3u8.*?)\"", text).group(1)
 
-            elif 'videos.classplusapp' in url or "tencdn.classplusapp" in url or "webvideos.classplusapp.com" in url or "media-cdn-alisg.classplusapp.com" in url or "videos.classplusapp" in url or "videos.classplusapp.com" in url or "media-cdn-a.classplusapp" in url or "media-cdn.classplusapp" in url or "alisg-cdn-a.classplusapp" in url:
-             url = requests.get(f'https://api.classplusapp.com/cams/uploader/video/jw-signed-url?url={url}', headers={'x-access-token': 'eyJjb3Vyc2VJZCI6IjQ1NjY4NyIsInR1dG9ySWQiOm51bGwsIm9yZ0lkIjo0ODA2MTksImNhdGVnb3J5SWQiOm51bGx9r'}).json()['url']
-                                        
-            elif "d1d34p8vz63oiq" in url or "sec1.pw.live" in url:
-             url = f"https://anonymouspwplayer-b99f57957198.herokuapp.com/pw?url={url}?token={PW}"
-
+            elif 'videos.classplusapp' in url or "tencdn.classplusapp" in url or "alisg-cdn-a.classplusapp.com" in url or "webvideos.classplusapp.com" in url or "media-cdn-alisg.classplusapp.com" in url or "videos.classplusapp" in url or "videos.classplusapp.com" in url or "media-cdn-a.classplusapp" in url or "media-cdn.classplusapp" in url:
+                headers = {'host': 'api.classplusapp.com', 'x-access-token': f'{raw_text4}', 'accept-language': 'EN', 'api-version': '18', 'app-version': '1.4.73.2', 'build-number': '35', 'connection': 'Keep-Alive', 'content-type': 'application/json', 'device-details': 'Xiaomi_Redmi 7_SDK-32', 'device-id': 'c28d3cb16bbdac01', 'region': 'IN', 'user-agent': 'Mobile-Android', 'webengage-luid': '00000187-6fe4-5d41-a530-26186858be4c', 'accept-encoding': 'gzip'}
+                params = {"url": f"{url}"}
+                response = requests.get('https://api.classplusapp.com/cams/uploader/video/jw-signed-url', headers=headers, params=params)
+                url = response.json()['url']  
+                
+            elif '/master.mpd' in url:
+             url = f"https://master-api-v3.vercel.app/pw/m3u8v2?url={url}&token={raw_text4}&authorization={auth_token}&q={raw_text2}"
+                
             name1 = links[i][0].replace("\t", "").replace(":", "").replace("/", "").replace("+", "").replace("#", "").replace("|", "").replace("@", "").replace("*", "").replace(".", "").replace("https", "").replace("http", "").strip()
             name = f'{name1[:60]}'
             
@@ -532,10 +371,10 @@ async def txt_handler(bot: Client, m: Message):
                 cmd = f'yt-dlp -f "{ytf}" "{url}" -o "{name}.mp4"'
 
             try:  
-                cc = f'<pre><quote>——— ✦  {str(count).zfill(3)} ✦ ———</quote></pre>\n\n🎞️𝐓𝐢𝐭𝐥𝐞 » `{name1}` **[{res}]**.mp4\n\n<pre><code>📚 Course : {b_name}</code></pre>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `{CR}`\n'
-                cc1 = f'<pre><quote>——— ✦  {str(count).zfill(3)} ✦ ———</quote></pre>\n\n📕𝐓𝐢𝐭𝐥𝐞 » `{name1}` .pdf\n\n<pre><code>📚 Course : {b_name}</code></pre>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `{CR}`\n'
+                cc = f'**\n╭──────.★..─╮\n{str(count).zfill(3)}\n╰─..★.──────╯**\n\n**📝 Title:** {name1} \n**├── Extention :** @AnkitShakya.mkv\n**├── Resolution :** [{res}]\n\n<pre><code>📚 Batch Name: {b_name}</code></pre>\n\n**📥 Extracted By :**\n╭──────────.✨..─╮\n\n      {CR}\n\n╰─..✨.──────────╯\n\n**<pre><code>━━━━━✦𝐀𝐍𝐊𝐈𝐓❤️✦━━━━━</code></pre>**'
+                cc1 = f'**\n╭──────.★..─╮\n{str(count).zfill(3)}\n╰─..★.──────╯**\n\n**📝 Title:** {name1} \n**├── Extention :** @AnkitShakya.pdf\n**├── Resolution :** [None]\n\n<pre><code>📚 Batch Name: {b_name}</code></pre>\n\n**📥 Extracted By :**\n╭──────────.✨..─╮\n\n      {CR}\n\n╰─..✨.──────────╯\n\n**<pre><code>━━━━━✦𝐀𝐍𝐊𝐈𝐓❤️✦━━━━━</code></pre>**'
                 cczip = f'<pre><quote>——— ✦  {str(count).zfill(3)} ✦ ———</quote></pre>\n\n📁𝐓𝐢𝐭𝐥𝐞 » `{name1}` .zip\n\n<pre><code>📚 Course : {b_name}</code></pre>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `{CR}`\n'  
-                ccimg = f'<pre><quote>——— ✦  {str(count).zfill(3)} ✦ ———</quote></pre>\n\n🖼️𝐓𝐢𝐭𝐥𝐞 » `{name1}` .jpg\n\n<pre><code>📚 Course : {b_name}</code></pre>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `{CR}`\n'
+                ccimg = f'**\n╭──────.★..─╮\n{str(count).zfill(3)}\n╰─..★.──────╯**\n\n**📝 Title:** {name1} \n**├── Extention :** @AnkitShakya.jpg\n**├── Resolution :** [None]\n\n<pre><code>📚 Batch Name: {b_name}</code></pre>\n\n**📥 Extracted By :**\n╭──────────.✨..─╮\n\n      {CR}\n\n╰─..✨.──────────╯\n\n**<pre><code>━━━━━✦𝐀𝐍𝐊𝐈𝐓❤️✦━━━━━</code></pre>**'
                 cccpvod = f'<pre><quote>——— ✦  {str(count).zfill(3)} ✦ ———</quote></pre>\n\n🎞️𝐓𝐢𝐭𝐥𝐞 » `{name1}` .mp4\n\n<a href="{urlcpvod}">__**Click Here to Watch Stream**__</a>\n🔗𝐋𝐢𝐧𝐤 » {link0}\n\n<pre><code>📚 Course : {b_name}</code></pre>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `{CR}`\n'
                 ccyt = f'<pre><quote>——— ✦  {str(count).zfill(3)} ✦ ———</quote></pre>\n\n🎞️𝐓𝐢𝐭𝐥𝐞 » `{name1}` .mp4\n\n<a href="{url}">__**Click Here to Watch Stream**__</a>\n\n<pre><code>📚 Course : {b_name}</code></pre>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `{CR}`\n'
                                  
@@ -552,21 +391,7 @@ async def txt_handler(bot: Client, m: Message):
                         count+=1
                         continue
 
-                elif ".pdf*" in url:
-                    try:
-                        url_part, key_part = url.split("*")
-                        url = f"https://dragoapi.vercel.app/pdf/{url_part}*{key_part}"
-                        cmd = f'yt-dlp -o "{name}.pdf" "{url}"'
-                        download_cmd = f"{cmd} -R 25 --fragment-retries 25"
-                        os.system(download_cmd)
-                        copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)
-                        count += 1
-                        os.remove(f'{name}.pdf')
-                    except FloodWait as e:
-                        await m.reply_text(str(e))
-                        time.sleep(e.x)
-                        count += 1
-                        continue   
+                
 
                 elif ".pdf" in url:
                     try:
@@ -659,8 +484,8 @@ async def txt_handler(bot: Client, m: Message):
                            f"<pre><code>🖇️𝐑𝐞𝐦𝐚𝐢𝐧𝐢𝐧𝐠 𝐋𝐢𝐧𝐤𝐬 » {remaining_links}</code></pre>\n" \
                            f"📚𝐓𝐢𝐭𝐥𝐞 » `{name}`\n" \
                            f"<pre><code>🍁𝐐𝐮𝐚𝐥𝐢𝐭𝐲 » {raw_text2}p</code></pre>\n" \
-                           f"🔗𝐋𝐢𝐧𝐤 » `{link0}`\n" \
-                           f"<pre><code>✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ `RAO SAHAB ✅🐦`</code></pre>"
+                           f"🔗𝐋𝐢𝐧𝐤 » `{link0}`\n" \                         
+                           f"<pre><code>✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ 𝐀𝐧𝐤𝐢𝐭 𝐒𝐡𝐚𝐤𝐲𝐚🇮🇳</code></pre>"
                     prog = await m.reply_text(Show)
                     res_file = await helper.download_video(url, cmd, name)
                     filename = res_file
@@ -672,14 +497,14 @@ async def txt_handler(bot: Client, m: Message):
 
             except Exception as e:
                 await m.reply_text(
-                    f"<pre><code>⚠️ 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐢𝐧𝐠 𝐈𝐧𝐭𝐞𝐫𝐮𝐩𝐭𝐞𝐝</code></pre>\n⚠️ 𝐓𝐢𝐭𝐥𝐞 » `{name}`\n\n🔗𝐋𝐢𝐧𝐤 » `{link0}`\n<pre><code>✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ `RAO SAHAB ✅🐦`</code></pre>"
+                    f"<pre><code>⚠️ 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐢𝐧𝐠 𝐈𝐧𝐭𝐞𝐫𝐮𝐩𝐭𝐞𝐝</code></pre>\n⚠️ 𝐓𝐢𝐭𝐥𝐞 » `{name}`\n\n🔗𝐋𝐢𝐧𝐤 » `{link0}`\n<pre><code>✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ `{credit}`</code></pre>"
                 )
                 count += 1
                 continue
 
     except Exception as e:
         await m.reply_text(e)
-    await m.reply_text("<pre><code>list index out of range</code></pre>\n<pre><code>Downloaded By ⌈✨『RAO SAHAB ✅ 』✨⌋</code></pre>")
+    await m.reply_text("<pre><code>list index out of range</code></pre>\n<pre><code>Downloaded By ⌈✨ 𝐀𝐧𝐤𝐢𝐭 𝐒𝐡𝐚𝐤𝐲𝐚🇮🇳 ✨⌋</code></pre>")
     
 @bot.on_message(filters.text & filters.private)
 async def text_handler(bot: Client, m: Message):
@@ -696,7 +521,7 @@ async def text_handler(bot: Client, m: Message):
     editable = await m.reply_text(f"<pre><code>**🔹Processing your link...\n🔁Please wait...⏳**</code></pre>")
     await m.delete()
 
-    await editable.edit("<pre><code>╭━━━━❰ᴇɴᴛᴇʀ ʀᴇꜱᴏʟᴜᴛɪᴏɴ❱━━➣ </code></pre>\n┣━━⪼ send `144`  for 144p\n┣━━⪼ send `240`  for 240p\n┣━━⪼ send `360`  for 360p\n┣━━⪼ send `480`  for 480p\n┣━━⪼ send `720`  for 720p\n┣━━⪼ send `1080` for 1080p\n<pre><code>╰━━⌈⚡[`🦋 RAO SAHAB ✅ 🦋`]⚡⌋━━➣ </code></pre>")
+    await editable.edit("<pre><code>╭━━━━❰ᴇɴᴛᴇʀ ʀᴇꜱᴏʟᴜᴛɪᴏɴ❱━━➣ </code></pre>\n┣━━⪼ send `144`  for 144p\n┣━━⪼ send `240`  for 240p\n┣━━⪼ send `360`  for 360p\n┣━━⪼ send `480`  for 480p\n┣━━⪼ send `720`  for 720p\n┣━━⪼ send `1080` for 1080p\n<pre><code>╰━━⌈⚡[`𝐀𝐧𝐤𝐢𝐭 𝐒𝐡𝐚𝐤𝐲𝐚🇮🇳`]⚡⌋━━➣ </code></pre>")
     input2: Message = await bot.listen(editable.chat.id, filters=filters.text & filters.user(m.from_user.id))
     raw_text2 = input2.text
     quality = input2.text
@@ -765,12 +590,15 @@ async def text_handler(bot: Client, m: Message):
                         text = await resp.text()
                         url = re.search(r"(https://.*?playlist.m3u8.*?)\"", text).group(1)
 
-            elif 'videos.classplusapp' in url or "tencdn.classplusapp" in url or "webvideos.classplusapp.com" in url or "media-cdn-alisg.classplusapp.com" in url or "videos.classplusapp" in url or "videos.classplusapp.com" in url or "media-cdn-a.classplusapp" in url or "media-cdn.classplusapp" in url:
-             url = requests.get(f'https://api.classplusapp.com/cams/uploader/video/jw-signed-url?url={url}', headers={'x-access-token': 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJpZCI6MzgzNjkyMTIsIm9yZ0lkIjoyNjA1LCJ0eXBlIjoxLCJtb2JpbGUiOiI5MTcwODI3NzQyODkiLCJuYW1lIjoiQWNlIiwiZW1haWwiOm51bGwsImlzRmlyc3RMb2dpbiI6dHJ1ZSwiZGVmYXVsdExhbmd1YWdlIjpudWxsLCJjb3VudHJ5Q29kZSI6IklOIiwiaXNJbnRlcm5hdGlvbmFsIjowLCJpYXQiOjE2NDMyODE4NzcsImV4cCI6MTY0Mzg4NjY3N30.hM33P2ai6ivdzxPPfm01LAd4JWv-vnrSxGXqvCirCSpUfhhofpeqyeHPxtstXwe0'}).json()['url']
-                            
-            elif "d1d34p8vz63oiq" in url or "sec1.pw.live" in url:
-             url = f"https://anonymouspwplayer-b99f57957198.herokuapp.com/pw?url={url}?token={PW}"
-
+            elif 'videos.classplusapp' in url or "tencdn.classplusapp" in url or "alisg-cdn-a.classplusapp.com" in url or "webvideos.classplusapp.com" in url or "media-cdn-alisg.classplusapp.com" in url or "videos.classplusapp" in url or "videos.classplusapp.com" in url or "media-cdn-a.classplusapp" in url or "media-cdn.classplusapp" in url:
+                headers = {'host': 'api.classplusapp.com', 'x-access-token': f'{raw_text4}', 'accept-language': 'EN', 'api-version': '18', 'app-version': '1.4.73.2', 'build-number': '35', 'connection': 'Keep-Alive', 'content-type': 'application/json', 'device-details': 'Xiaomi_Redmi 7_SDK-32', 'device-id': 'c28d3cb16bbdac01', 'region': 'IN', 'user-agent': 'Mobile-Android', 'webengage-luid': '00000187-6fe4-5d41-a530-26186858be4c', 'accept-encoding': 'gzip'}
+                params = {"url": f"{url}"}
+                response = requests.get('https://api.classplusapp.com/cams/uploader/video/jw-signed-url', headers=headers, params=params)
+                url = response.json()['url']  
+                
+            elif '/master.mpd' in url:
+             url = f"https://master-api-v3.vercel.app/pw/m3u8v2?url={url}&token={raw_text4}&authorization={auth_token}&q={raw_text2}"
+                
             name1 = links.replace("\t", "").replace(":", "").replace("/", "").replace("+", "").replace("#", "").replace("|", "").replace("@", "").replace("*", "").replace(".", "").replace("https", "").replace("http", "").strip()
             name = f'{name1[:20]}'
             
@@ -802,10 +630,10 @@ async def text_handler(bot: Client, m: Message):
                 cmd = f'yt-dlp -f "{ytf}" "{url}" -o "{name}.mp4"'
 
             try:
-                cc = f'🎞️𝐓𝐢𝐭𝐥𝐞 » `{name}` [{res}].mp4\n🔗𝐋𝐢𝐧𝐤 » <a href="{link}">__**CLICK HERE**__</a>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `RAO SAHAB `'
-                cc1 = f'📕𝐓𝐢𝐭𝐥𝐞 » `{name}`\n🔗𝐋𝐢𝐧𝐤 » <a href="{link}">__**CLICK HERE**__</a>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `RAO SAHAB `'
-                ccyt = f'🎞️𝐓𝐢𝐭𝐥𝐞 » `{name}` .mp4\n🔗𝐋𝐢𝐧𝐤 » <a href="{link}">__**Click Here to Watch Stream**__</a>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `RAO SAHAB `'
-                cccpvod = f'🎞️𝐓𝐢𝐭𝐥𝐞 » `{name}` .mp4\n<a href="{linkcpvod}">__**Click Here to Watch Stream**__</a>\n🔗𝐋𝐢𝐧𝐤 » {link}\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `RAO SAHAB `'
+                cc = f'🎞️𝐓𝐢𝐭𝐥𝐞 » `{name}` [{res}].mp4\n🔗𝐋𝐢𝐧𝐤 » <a href="{link}">__**CLICK HERE**__</a>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » {CR}'
+                cc1 = f'📕𝐓𝐢𝐭𝐥𝐞 » `{name}`\n🔗𝐋𝐢𝐧𝐤 » <a href="{link}">__**CLICK HERE**__</a>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » {CR}'
+                ccyt = f'🎞️𝐓𝐢𝐭𝐥𝐞 » `{name}` .mp4\n🔗𝐋𝐢𝐧𝐤 » <a href="{link}">__**Click Here to Watch Stream**__</a>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `{CR}`'
+                cccpvod = f'🎞️𝐓𝐢𝐭𝐥𝐞 » `{name}` .mp4\n<a href="{linkcpvod}">__**Click Here to Watch Stream**__</a>\n🔗𝐋𝐢𝐧𝐤 » {link}\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `{CR}`'
                 
                 if "drive" in url:
                     try:
@@ -947,7 +775,7 @@ async def text_handler(bot: Client, m: Message):
                                 
                 else:
                     emoji_message = await show_random_emojis(message)
-                    Show = f"<pre><code>**⚡Dᴏᴡɴʟᴏᴀᴅ Sᴛᴀʀᴛᴇᴅ...⏳**</code></pre>\n🔗𝐋𝐢𝐧𝐤 » `{link}`\n<pre><code>✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ `MR BRIJESH 🐦`</code></pre>"
+                    Show = f"<pre><code>**⚡Dᴏᴡɴʟᴏᴀᴅ Sᴛᴀʀᴛᴇᴅ...⏳**</code></pre>\n🔗𝐋𝐢𝐧𝐤 » `{link}`\n<pre><code>✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ `𝐀𝐧𝐤𝐢𝐭 𝐒𝐡𝐚𝐤𝐲𝐚🇮🇳`</code></pre>"
                     prog = await m.reply_text(Show)
                     res_file = await helper.download_video(url, cmd, name)
                     filename = res_file
@@ -958,7 +786,7 @@ async def text_handler(bot: Client, m: Message):
                     time.sleep(1)
 
             except Exception as e:
-                    Error= f"<pre><code>⚠️ 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐢𝐧𝐠 𝐈𝐧𝐭𝐞𝐫𝐮𝐩𝐭𝐞𝐝</code></pre>\n⚠️ 𝐓𝐢𝐭𝐥𝐞 » `{name}`\n\n🔗𝐋𝐢𝐧𝐤 » `{link}`\n<pre><code>✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ `MR BRIJESH 🐦`</code></pre>"
+                    Error= f"<pre><code>⚠️ 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐢𝐧𝐠 𝐈𝐧𝐭𝐞𝐫𝐮𝐩𝐭𝐞𝐝</code></pre>\n⚠️ 𝐓𝐢𝐭𝐥𝐞 » `{name}`\n\n🔗𝐋𝐢𝐧𝐤 » `{link}`\n<pre><code>✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ `𝐀𝐧𝐤𝐢𝐭 𝐒𝐡𝐚𝐤𝐲𝐚🇮🇳`</code></pre>"
                     await m.reply_text(Error)
                     count += 1
                     pass
