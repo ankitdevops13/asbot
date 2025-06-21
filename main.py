@@ -323,7 +323,7 @@ async def txt_handler(bot: Client, m: Message):
                         url = re.search(r"(https://.*?playlist.m3u8.*?)\"", text).group(1)
 
             elif 'videos.classplusapp' in url or "tencdn.classplusapp" in url or "media-cdn-alisg.classplusapp.com" in url or "videos.classplusapp" in url or "videos.classplusapp.com" in url or "media-cdn-a.classplusapp" in url or "media-cdn.classplusapp" in url:
-            url = requests.get(f'https://master-api-v3.vercel.app/classp?url={url}&authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNzM0MTA1OTA2NCIsInRnX3VzZXJuYW1lIjoiQGltX2Fua2l0c2hha3lhIiwiaWF0IjoxNzUwMDk5NzY5fQ.nkazfkOyO-uUiWcY1Cpaq8xkwLAxoS0p5P_3RU-IfSM', headers={'x-access-token': f'{raw_text4}'}).json()['url']
+            url = f"https://master-api-v3.vercel.app/classp?url={url}&authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNzM0MTA1OTA2NCIsInRnX3VzZXJuYW1lIjoiQGltX2Fua2l0c2hha3lhIiwiaWF0IjoxNzUwMDk5NzY5fQ.nkazfkOyO-uUiWcY1Cpaq8xkwLAxoS0p5P_3RU-IfSM&token{raw_text4}"
             
                 
             elif '/master.mpd' in url:
