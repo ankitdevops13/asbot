@@ -365,7 +365,6 @@ async def txt_handler(bot: Client, m: Message):
                 cc1 = f'**\n╭──────.★..─╮\n{str(count).zfill(3)}\n╰─..★.──────╯**\n\n**📝 Title:** {name1} \n**├── Extention :** @AnkitShakya.pdf\n**├── Resolution :** [None]\n\n<pre><code>📚 Batch Name: {b_name}</code></pre>\n\n**📥 Extracted By :**\n╭──────────.✨..─╮\n\n      {CR}\n\n╰─..✨.──────────╯\n\n**<pre><code>━━━━━✦𝐀𝐍𝐊𝐈𝐓❤️✦━━━━━</code></pre>**'
                 cczip = f'<pre><quote>——— ✦  {str(count).zfill(3)} ✦ ———</quote></pre>\n\n📁𝐓𝐢𝐭𝐥𝐞 » `{name1}` .zip\n\n<pre><code>📚 Course : {b_name}</code></pre>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `{CR}`\n'  
                 ccimg = f'**\n╭──────.★..─╮\n{str(count).zfill(3)}\n╰─..★.──────╯**\n\n**📝 Title:** {name1} \n**├── Extention :** @AnkitShakya.jpg\n**├── Resolution :** [None]\n\n<pre><code>📚 Batch Name: {b_name}</code></pre>\n\n**📥 Extracted By :**\n╭──────────.✨..─╮\n\n      {CR}\n\n╰─..✨.──────────╯\n\n**<pre><code>━━━━━✦𝐀𝐍𝐊𝐈𝐓❤️✦━━━━━</code></pre>**'
-                cccpvod = f'<pre><quote>——— ✦  {str(count).zfill(3)} ✦ ———</quote></pre>\n\n🎞️𝐓𝐢𝐭𝐥𝐞 » `{name1}` .mp4\n\n<a href="{urlcpvod}">__**Click Here to Watch Stream**__</a>\n🔗𝐋𝐢𝐧𝐤 » {link0}\n\n<pre><code>📚 Course : {b_name}</code></pre>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `{CR}`\n'
                 ccyt = f'<pre><quote>——— ✦  {str(count).zfill(3)} ✦ ———</quote></pre>\n\n🎞️𝐓𝐢𝐭𝐥𝐞 » `{name1}` .mp4\n\n<a href="{url}">__**Click Here to Watch Stream**__</a>\n\n<pre><code>📚 Course : {b_name}</code></pre>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `{CR}`\n'
                                  
                 if "drive" in url:
@@ -446,15 +445,7 @@ async def txt_handler(bot: Client, m: Message):
                         count += 1
                         continue
 
-                elif "cpvod.testbook.com" in url:
-                    try:
-                        await bot.send_photo(chat_id=m.chat.id, photo=photologo, caption=cccpvod)
-                        count +=1
-                    except Exception as e:
-                        await m.reply_text(str(e))    
-                        time.sleep(1)    
-                        continue          
-
+                
                 elif "youtu" in url:
                     try:
                         await bot.send_photo(chat_id=m.chat.id, photo=photoyt, caption=ccyt)
@@ -770,7 +761,7 @@ async def text_handler(bot: Client, m: Message):
                     time.sleep(1)
 
             except Exception as e:
-                    Error= f"<pre><code>⚠️ 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐢𝐧𝐠 𝐈𝐧𝐭𝐞𝐫𝐮𝐩𝐭𝐞𝐝</code></pre>\n⚠️ 𝐓𝐢𝐭𝐥𝐞 » `{name}`\n\n🔗𝐋𝐢𝐧𝐤 » `{link}`\n<pre><code>✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ `𝐀𝐧𝐤𝐢𝐭 𝐒𝐡𝐚𝐤𝐲𝐚🇮🇳`</code></pre>"
+                    Error= f"<pre><code>⚠️ 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐢𝐧𝐠 𝐈𝐧𝐭𝐞𝐫𝐮𝐩𝐭𝐞𝐝 {str(e)}</code></pre>\n⚠️ 𝐓𝐢𝐭𝐥𝐞 » `{name}`\n\n🔗𝐋𝐢𝐧𝐤 » `{link}`\n<pre><code>✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ `𝐀𝐧𝐤𝐢𝐭 𝐒𝐡𝐚𝐤𝐲𝐚🇮🇳`</code></pre>"
                     await m.reply_text(Error)
                     count += 1
                     pass
