@@ -28,7 +28,7 @@ from pyrogram.types.messages_and_media import message
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 photologo = 'https://tinypic.host/images/2025/02/07/DeWatermark.ai_1738952933236-1.png'
-photoyt = 'https://tinypic.host/images/2025/03/18/YouTube-Logo.wine.png'
+photoyt = 'https://pin.it/52NSOofRG'
 
 async def show_random_emojis(message):
     emojis = ['🥰', '😘', '❤️', '⚡️', '🚀', '🌟', '🔥', '✨','😍']
@@ -360,10 +360,10 @@ async def txt_handler(bot: Client, m: Message):
             try:  
                 cc = f'**\n╭──────.★..─╮\n{str(count).zfill(3)}\n╰─..★.──────╯**\n\n**📝 Title:** {name1} \n**├── Extention :** @AnkitShakya.mkv\n**├── Resolution :** [{res}]\n\n<pre><code>📚 Batch Name: {b_name}</code></pre>\n\n**📥 Extracted By :**\n╭──────────.✨..─╮\n\n      {CR}\n\n╰─..✨.──────────╯\n\n**<pre><code>━━━━━✦𝐀𝐍𝐊𝐈𝐓❤️✦━━━━━</code></pre>**'
                 cc1 = f'**\n╭──────.★..─╮\n{str(count).zfill(3)}\n╰─..★.──────╯**\n\n**📝 Title:** {name1} \n**├── Extention :** @AnkitShakya.pdf\n**├── Resolution :** [None]\n\n<pre><code>📚 Batch Name: {b_name}</code></pre>\n\n**📥 Extracted By :**\n╭──────────.✨..─╮\n\n      {CR}\n\n╰─..✨.──────────╯\n\n**<pre><code>━━━━━✦𝐀𝐍𝐊𝐈𝐓❤️✦━━━━━</code></pre>**'
-                cczip = f'<pre><quote>——— ✦  {str(count).zfill(3)} ✦ ———</quote></pre>\n\n📁𝐓𝐢𝐭𝐥𝐞 » `{name1}` .zip\n\n<pre><code>📚 Course : {b_name}</code></pre>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `{CR}`\n'  
+                cczip = f'**\n╭──────.★..─╮\n{str(count).zfill(3)}\n╰─..★.──────╯**\n\n**📝 Title:** {name1} \n**├── Extention :** @AnkitShakya.zip\n**├── Resolution :** [None]\n\n<pre><code>📚 Batch Name: {b_name}</code></pre>\n\n**📥 Extracted By :**\n╭──────────.✨..─╮\n\n      {CR}\n\n╰─..✨.──────────╯\n\n**<pre><code>━━━━━✦𝐀𝐍𝐊𝐈𝐓❤️✦━━━━━</code></pre>**'
                 ccimg = f'**\n╭──────.★..─╮\n{str(count).zfill(3)}\n╰─..★.──────╯**\n\n**📝 Title:** {name1} \n**├── Extention :** @AnkitShakya.jpg\n**├── Resolution :** [None]\n\n<pre><code>📚 Batch Name: {b_name}</code></pre>\n\n**📥 Extracted By :**\n╭──────────.✨..─╮\n\n      {CR}\n\n╰─..✨.──────────╯\n\n**<pre><code>━━━━━✦𝐀𝐍𝐊𝐈𝐓❤️✦━━━━━</code></pre>**'
-                ccyt = f'<pre><quote>——— ✦  {str(count).zfill(3)} ✦ ———</quote></pre>\n\n🎞️𝐓𝐢𝐭𝐥𝐞 » `{name1}` .mp4\n\n<a href="{url}">__**Click Here to Watch Stream**__</a>\n\n<pre><code>📚 Course : {b_name}</code></pre>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `{CR}`\n'
-                                 
+                ccyt = f'**\n╭──────.★..─╮\n{str(count).zfill(3)}\n╰─..★.──────╯**\n\n<a href="{url}">__**Click Here to Watch Stream**__</a>\n\n**📝 Title:** {name1} \n**├── Extention :** @AnkitShakya.mkv\n**├── Resolution :** [{res}]\n\n<pre><code>📚 Batch Name: {b_name}</code></pre>\n\n**📥 Extracted By :**\n╭──────────.✨..─╮\n\n      {CR}\n\n╰─..✨.──────────╯\n\n**<pre><code>━━━━━✦𝐀𝐍𝐊𝐈𝐓❤️✦━━━━━</code></pre>**'
+                 
                 if "drive" in url:
                     try:
                         ka = await helper.download(url, name)
@@ -428,20 +428,25 @@ async def txt_handler(bot: Client, m: Message):
                         count += 1
                         continue
 
-                elif ".jpg" in url or ".png" in url:
-                    try:
-                        cmd = f'yt-dlp -o "{name}.jpg" "{url}"'
-                        download_cmd = f"{cmd} -R 25 --fragment-retries 25"
-                        os.system(download_cmd)
-                        copy = await bot.send_photo(chat_id=m.chat.id, document=f'{name}.jpg', caption=ccimg)
-                        count += 1
-                        os.remove(f'{name}.jpg')
-                    except FloodWait as e:
-                        await m.reply_text(str(e))
-                        time.sleep(e.x)
-                        count += 1
-                        continue
-
+                elif any(img in url.lower() for img in ['.jpeg', '.png', '.jpg']):
+                        try:
+                            subprocess.run(['wget', url, '-O', f'{name}.jpg'], check=True)  # Fixing this line
+                            await bot.send_photo(
+                                chat_id=m.chat.id,
+                                caption = cimg,
+                                photo= f'{name}.jpg',  )
+                            count += 1
+                            await asyncio.sleep(1)
+                            continue
+                        except subprocess.CalledProcessError:
+                            await message.reply("Failed to download the image. Please check the URL.")
+                        except Exception as e:
+                            await message.reply(f"An error occurred: {e}")
+                        finally:
+                            # Clean up the downloaded file
+                            if os.path.exists(f'{name}.jpg'):
+                                os.remove(f'{name}.jpg')         
+        
                 
                 elif "youtu" in url:
                     try:
