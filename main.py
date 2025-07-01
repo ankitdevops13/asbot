@@ -28,7 +28,7 @@ from pyrogram.types.messages_and_media import message
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 photologo = 'https://tinypic.host/images/2025/02/07/DeWatermark.ai_1738952933236-1.png'
-photoyt = "{url}"
+photoyt = "https://www.theproche.com/wp-content/uploads/2022/03/youtube-thumbnail.png"
 
 async def show_random_emojis(message):
     emojis = ['🥰', '😘', '❤️', '⚡️', '🚀', '🌟', '🔥', '✨','😍']
