@@ -337,6 +337,9 @@ async def txt_handler(bot: Client, m: Message):
             #if 'cpvod.testbook.com' in url:
                #url = requests.get(f'http://api.masterapi.tech/akamai-player-v3?url={url}', headers={'x-access-token': 'eyJjb3Vyc2VJZCI6IjQ1NjY4NyIsInR1dG9ySWQiOm51bGwsIm9yZ0lkIjo0ODA2MTksImNhdGVnb3J5SWQiOm51bGx9r'}).json()['url']
                #url0 = f"https://dragoapi.vercel.app/video/{url}"
+            if "edge.api.brightcove.com/playback/v2" in url:
+                vid_id = url.split("playback/v2")[1]
+                url = f"https://edge.api.brightcove.com/playback/v1/{vid_id}"
                 
             if "/master.mpd" in url:
                 cmd= f" yt-dlp -k --allow-unplayable-formats -f bestvideo.{quality} --fixup never {url} "
