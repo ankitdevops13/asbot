@@ -291,7 +291,7 @@ async def txt_handler(bot: Client, m: Message):
     else:
         PW = raw_text4
         
-    await editable.edit("<pre><code>⚪Send ☞ jpg url for **Video Thumbnail [U SAY :-no]** format</code></pre>\n<pre><code>🔘Send ☞ jpg url for **Document Thumbnail** format</code></pre>")
+    await editable.edit("<pre><code>⚪Send ☞  [U SAY :-no]** t</code></pre>\n<pre><code>🔘Send ☞ no</code></pre>")
     input6 = message = await bot.listen(editable.chat.id)
     raw_text6 = input6.text
     await input6.delete(True)
