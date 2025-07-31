@@ -31,7 +31,7 @@ photologo = 'https://tinypic.host/images/2025/02/07/DeWatermark.ai_1738952933236
 photoyt = 'https://tinypic.host/images/2025/03/18/YouTube-Logo.wine.png'
 
 async def show_random_emojis(message):
-    emojis = ['😁', '🥲', '🙃', '⚡️', '🚀', '🌟', '🔥', '✨','😎']
+    emojis = ['😁', '🥲', '🙃', '⚡️', '🚀', '🌟', '🔥', '✨','🤞']
     emoji_message = await message.reply_text(' '.join(random.choices(emojis, k=1)))
     return emoji_message
 
