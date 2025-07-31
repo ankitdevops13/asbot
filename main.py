@@ -31,7 +31,7 @@ photologo = 'https://tinypic.host/images/2025/02/07/DeWatermark.ai_1738952933236
 photoyt = 'https://tinypic.host/images/2025/03/18/YouTube-Logo.wine.png'
 
 async def show_random_emojis(message):
-    emojis = ['🥰', '😘', '❤️', '⚡️', '🚀', '🌟', '🔥', '✨','😍']
+    emojis = ['😁', '🥲', '🙃', '⚡️', '🚀', '🌟', '🔥', '✨','😎']
     emoji_message = await message.reply_text(' '.join(random.choices(emojis, k=1)))
     return emoji_message
 
@@ -53,7 +53,7 @@ cookies_file_path= "youtube_cookies.txt"
 auth_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNzM0MTA1OTA2NCIsInRnX3VzZXJuYW1lIjoiQEFua2l0U2hha3lhIiwiaWF0IjoxNzUyMzA1MTc0fQ.3RIgokYBSvom_0d_aW4S7U-sjDKLNpWhi8_CKabkbZQ"
 
 
-auth_users = [7212452634,7341059064,5817712634,8007442798,7958016772,7080838404,7431004177,7813618750,6912654760,6902896798]
+auth_users = [7212452634,7341059064,5817712634,8007442798,7958016772,7080838404,7431004177,7813618750,6912654760,8056915809,6902896798]
 
 # Command to authorize a user
 @bot.on_message(filters.command("auth") & filters.private)
@@ -234,7 +234,7 @@ async def txt_handler(bot: Client, m: Message):
         os.remove(x)
         return
    
-    await editable.edit(f"<pre><code>Total 🔗 links found are __**{len(links)}**__</code></pre>\n<pre><code>Send From where you want to download initial is `1`</code></pre>")
+    await editable.edit(f"<pre><code>Total 🔗 links found are __**{len(links)}**__</code></pre>\n<pre><code>Send From where you want to download initial is '1' </code></pre>")
     input0: Message = await bot.listen(editable.chat.id)
     raw_text = input0.text
     await input0.delete(True)
@@ -242,7 +242,7 @@ async def txt_handler(bot: Client, m: Message):
         arg = int(raw_text)
     except:
         arg = 1
-    await editable.edit("<pre><code>**Enter Your Batch Name**</code></pre>\n<pre><code>Send `1` for use default.</code></pre>")
+    await editable.edit("<pre><code>**Enter Your Batch Name**</code></pre>\n<pre><code>Send '1' for use default.</code></pre>")
     input1: Message = await bot.listen(editable.chat.id)
     raw_text0 = input1.text
     await input1.delete(True)
@@ -251,7 +251,7 @@ async def txt_handler(bot: Client, m: Message):
     else:
         b_name = raw_text0
 
-    await editable.edit("<pre><code>╭━━━━❰ᴇɴᴛᴇʀ ʀᴇꜱᴏʟᴜᴛɪᴏɴ❱━━➣ </code></pre>\n┣━━⪼ send `144`  for 144p\n┣━━⪼ send `240`  for 240p\n┣━━⪼ send `360`  for 360p\n┣━━⪼ send `480`  for 480p\n┣━━⪼ send `720`  for 720p\n┣━━⪼ send `1080` for 1080p\n<pre><code>╰⌈❣️𓊈Ⅾ𝔯Ṃũ𝕤īcī𝗮𝚗𓊉❣️(✿◠‿◠)⌋➣ </code></pre>")
+    await editable.edit("<pre><code>╭━━━━❰ᴇɴᴛᴇʀ ʀᴇꜱᴏʟᴜᴛɪᴏɴ❱━━➣ </code></pre>\n┣━━⪼ send '144'  for 144p\n┣━━⪼ send '240'  for 240p\n┣━━⪼ send '360'  for 360p\n┣━━⪼ send '480'  for 480p\n┣━━⪼ send '720'  for 720p\n┣━━⪼ send '1080' for 1080p\n<pre><code>╰⌈❣️𓊈Ⅾ𝔯Ṃũ𝕤īcī𝗮𝚗𓊉❣️(✿◠‿◠)⌋➣ </code></pre>")
     input2: Message = await bot.listen(editable.chat.id)
     raw_text2 = input2.text
     quality = input2.text
@@ -274,7 +274,7 @@ async def txt_handler(bot: Client, m: Message):
     except Exception:
             res = "UN"
 
-    await editable.edit("<pre><code>**Enter @ramramsa00bot**</code></pre>\n<pre><code>Send `de` for use default</code></pre>")
+    await editable.edit("<pre><code>**Enter @ramramsa00bot**</code></pre>\n<pre><code>Send 'de' for use default</code></pre>")
     input3: Message = await bot.listen(editable.chat.id)
     raw_text3 = input3.text
     await input3.delete(True)
@@ -293,7 +293,7 @@ async def txt_handler(bot: Client, m: Message):
     else:
         PW = raw_text4
         
-    await editable.edit("<pre><code>⚪Send ☞  [U SAY :-no]** t</code></pre>\n<pre><code>🔘Send ☞ no</code></pre>")
+    await editable.edit("<pre><code>⚪Send ☞  [U SAY :-no] 'https://files.catbox.moe/33sxwz.jpg'  ** t</code></pre>\n<pre><code>🔘Send ☞ no</code></pre>")
     input6 = message = await bot.listen(editable.chat.id)
     raw_text6 = input6.text
     await input6.delete(True)
@@ -499,7 +499,7 @@ async def text_handler(bot: Client, m: Message):
     editable = await m.reply_text(f"<pre><code>**🔹Processing your link...\n🔁Please wait...⏳**</code></pre>")
     await m.delete()
 
-    await editable.edit("<pre><code>╭━━━━❰ᴇɴᴛᴇʀ ʀᴇꜱᴏʟᴜᴛɪᴏɴ❱━━➣ </code></pre>\n┣━━⪼ send `144`  for 144p\n┣━━⪼ send `240`  for 240p\n┣━━⪼ send `360`  for 360p\n┣━━⪼ send `480`  for 480p\n┣━━⪼ send `720`  for 720p\n┣━━⪼ send `1080` for 1080p\n<pre><code>╰⌈❣️𓊈Ⅾ𝔯Ṃũ𝕤īcī𝗮𝚗𓊉❣️(✿◠‿◠)⌋➣ </code></pre>")
+    await editable.edit("<pre><code>╭━━━━❰ᴇɴᴛᴇʀ ʀᴇꜱᴏʟᴜᴛɪᴏɴ❱━━➣ </code></pre>\n┣━━⪼ send '144'  for 144p\n┣━━⪼ send '240'  for 240p\n┣━━⪼ send '360'  for 360p\n┣━━⪼ send '480'  for 480p\n┣━━⪼ send '720'  for 720p\n┣━━⪼ send '1080' for 1080p\n<pre><code>╰⌈❣️𓊈Ⅾ𝔯Ṃũ𝕤īcī𝗮𝚗𓊉❣️(✿◠‿◠)⌋➣ </code></pre>")
     input2: Message = await bot.listen(editable.chat.id, filters=filters.text & filters.user(m.from_user.id))
     raw_text2 = input2.text
     quality = input2.text
@@ -522,7 +522,7 @@ async def text_handler(bot: Client, m: Message):
     except Exception:
             res = "UN"
         
-    await editable.edit("<pre><code>**Enter  @ramramsa00bot**</code></pre>\n<pre><code>Send `de` for use default</code></pre>")
+    await editable.edit("<pre><code>**Enter  @ramramsa00bot**</code></pre>\n<pre><code>Send 'de' for use default</code></pre>")
     input3: Message = await bot.listen(editable.chat.id)
     raw_text3 = input3.text
     await input3.delete(True)
@@ -541,7 +541,7 @@ async def text_handler(bot: Client, m: Message):
     else:
         PW = raw_text4
         
-    await editable.edit("<pre><code>⚪Send ☞ `no` for **video** format</code></pre>\n<pre><code>🔘Send ☞ `No` for **Document** format</code></pre>")
+    await editable.edit("<pre><code>⚪Send ☞ 'no' 'https://files.catbox.moe/33sxwz.jpg' for **video** format</code></pre>\n<pre><code>🔘Send ☞ 'No' for **Document** format</code></pre>")
     input6 = message = await bot.listen(editable.chat.id, filters=filters.text & filters.user(m.from_user.id))
     raw_text6 = input6.text
     await input6.delete(True)
