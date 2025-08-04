@@ -1,4 +1,4 @@
-FROM python:3.9.2-slim-buster
+FROM python:3.12-alpine3.20
 RUN apt-get update && apt-get install -y wget \
     && apt-get install -y --no-install-recommends gcc libffi-dev musl-dev ffmpeg aria2 python3-pip \
     && apt-get clean \
