@@ -50,7 +50,7 @@ bot = Client(
 
 cookies_file_path= "youtube_cookies.txt"
 
-auth_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNzM0MTA1OTA2NCIsInRnX3VzZXJuYW1lIjoiQEFua2l0U2hha3lhIiwiaWF0IjoxNzUyMzA1MTc0fQ.3RIgokYBSvom_0d_aW4S7U-sjDKLNpWhi8_CKabkbZQ"
+auth_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNzM0MTA1OTA2NCIsInRnX3VzZXJuYW1lIjoiQEFua2l0U2hha3lhIiwiaWF0IjoxNzU1MTU1MDYyfQ.oVk_-J0EucDiL1hLTqxmjqHYPbeUzPQVNyfcrRCLioM"
 
 
 auth_users = [7212452634,7341059064,5817712634,8007442798,7958016772,7080838404,7431004177,7813618750,6912654760,8056915809,7943069140,6902896798]
@@ -330,7 +330,7 @@ async def txt_handler(bot: Client, m: Message):
                 url   = response.json()['url']
                 
             elif '/master.mpd' in url:
-             url = f"https://anonymouspwplayer-0e5a3f512dec.herokuapp.com/pw?url={url}&token={raw_text4}"
+             url = f"https://master-api-v3.vercel.app/pw/m3u8v2?url={url}&token={raw_text4}&authorization={auth_token}&q={raw_text2}"
                 
 
             elif "edge.api.brightcove.com" in url:
