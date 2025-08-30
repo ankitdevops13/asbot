@@ -524,6 +524,7 @@ async def text_handler(bot: Client, m: Message):
     except Exception:
             res = "UN"
         
+    credit ="𝐀𝐧𝐤𝐢𝐭 𝐒𝐡𝐚𝐤𝐲𝐚🇮🇳"   
     await editable.edit("<pre><code>**Enter Your Name**</code></pre>\n<pre><code>Send `de` for use default</code></pre>")
     input3: Message = await bot.listen(editable.chat.id)
     raw_text3 = input3.text
