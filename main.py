@@ -462,7 +462,7 @@ async def txt_handler(bot: Client, m: Message):
                         time.sleep(1)    
                         continue
 
-                elif "https://apps-s3-prod.utkarshapp.com/admin_v1" in url or "PDF.pdf" in url:
+                elif "apps-s3-prod.utkarshapp.com" in url or "PDF.pdf" in url:
                     try:
                         await bot.send_photo(chat_id=m.chat.id, photo=utkarsh, caption=ccukt)
                         count +=1
