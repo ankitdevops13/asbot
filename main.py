@@ -791,7 +791,7 @@ async def text_handler(bot: Client, m: Message):
     except Exception as e:
         await m.reply_text(e)   
                      
-@bot.on_message(filters.command(["alpha","member "]) )
+@bot.on_message(filters.command(["alpha"]) )
 async def upload(bot: Client, m: Message):
     editable = await m.reply_text(f"<pre><code>**🔹Hi I am Poweful TXT Downloader📥 Bot.**</code></pre>\n<pre><code>🔹**Send me the TXT file and wait.**</code></pre>")
     input: Message = await bot.listen(editable.chat.id)
