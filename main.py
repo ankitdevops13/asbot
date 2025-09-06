@@ -790,9 +790,10 @@ async def text_handler(bot: Client, m: Message):
 
     except Exception as e:
         await m.reply_text(e)   
-                     
+                    
+
 @bot.on_message(filters.command(["alpha"]) )
-async def upload(bot: Client, m: Message):
+async def txt_upload(bot: Client, m: Message):
     editable = await m.reply_text(f"<pre><code>**🔹Hi I am Poweful TXT Downloader📥 Bot.**</code></pre>\n<pre><code>🔹**Send me the TXT file and wait.**</code></pre>")
     input: Message = await bot.listen(editable.chat.id)
     x = await input.download()
@@ -1064,7 +1065,7 @@ async def upload(bot: Client, m: Message):
     await m.reply_text("<pre><code>🔰Done🔰\n\nDownloaded By ⌈✨ 𝐀𝐧𝐤𝐢𝐭 𝐒𝐡𝐚𝐤𝐲𝐚🇮🇳 ✨⌋</code></pre>")
 
 @bot.on_message(filters.command(["member"]) )
-async def upload(bot: Client, m: Message):
+async def txt_login(bot: Client, m: Message):
     editable = await m.reply_text(f"<pre><code>**🔹Hi I am Poweful TXT Downloader📥 Bot.**</code></pre>\n<pre><code>🔹**Send me the TXT file and wait.**</code></pre>")
     input: Message = await bot.listen(editable.chat.id)
     x = await input.download()
