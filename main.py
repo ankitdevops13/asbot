@@ -467,20 +467,19 @@ async def txt_handler(bot: Client, m: Message):
                     remaining_links = len(links) - count
                     progress = (count / len(links)) * 100
                     emoji_message = await show_random_emojis(message)
-                    Show = f"<pre><code>**⚡𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐢𝐧𝐠 𝐒𝐭𝐚𝐫𝐭𝐞𝐝...⏳**</code></pre>\n<pre><code>🚀𝐏𝐫𝐨𝐠𝐫𝐞𝐬𝐬 » {progress:.2f}% </code></pre>\n<pre><code>🔗𝐈𝐧𝐝𝐞𝐱 » {str(count)}/{len(links)}</code></pre>\n<pre><code>🖇️𝐑𝐞𝐦𝐚𝐢𝐧𝐢𝐧𝐠 𝐋𝐢𝐧𝐤𝐬 » {remaining_links}</code></pre>📚𝐓𝐢𝐭𝐥𝐞 » `{name}`\n<pre><code>🍁𝐐𝐮𝐚𝐥𝐢𝐭𝐲 » {raw_text2}p</code></pre>\n🔗𝐋𝐢𝐧𝐤 » <a href={url}>__**Click Here**__</a>\n<pre><code>✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ 𝐀𝐧𝐤𝐢𝐭 𝐒𝐡𝐚𝐤𝐲𝐚🇮🇳</code></pre>"
+                    Show = f"🚀 𝐏𝐑𝐎𝐆𝐑𝐄𝐒𝐒...» {progress:.2f}%\n\n📥 𝐃𝐎𝐖𝐍𝐋𝐎𝐀𝐃 🚀.. »\n\n├──🎞️ 📊 Total Links = {len(links)}\n\n├──🎞️ ⚡️ Currently On = {str(count).zfill(3)}\n\n├──⏳ Remaining URL = {remaining_links}\n\n├──🎞️ Title:- {name}\n\n├──⌨️ Resolution » {raw_text2}\n\n├──🖼️ Thumbnail » {raw_text6}\n\n├── Url:  <a href= {url} >__**CLICK HERE**__</a>\n\n├──🤖 Bot Made By: 『ᴀɴᴋɪᴛ sʜᴀᴋʏᴀ』"
                     prog = await m.reply_text(Show)
                     res_file = await helper.download_video(url, cmd, name)
                     filename = res_file
                     await prog.delete(True)
                     await emoji_message.delete()
-                    await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
+                    await helper.send_vid(bot, m, cc, filename, thumb, name)
                     count += 1
                     time.sleep(1)
-                    
 
             except Exception as e:
                 await m.reply_text(
-                    f"<pre><code>⚠️ 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐢𝐧𝐠 𝐈𝐧𝐭𝐞𝐫𝐮𝐩𝐭𝐞𝐝 {str(e)}</code></pre>\n⚠️ 𝐓𝐢𝐭𝐥𝐞 » `{name}`\n\n🔗𝐋𝐢𝐧𝐤 » `{url}`\n<pre><code>✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ `{credit}`</code></pre>"
+                    f"<pre><code>**├──❎ Downloding Fail**</code></pre>\n\n╭──────.★..─╮\n{str(count).zfill(3)}\n╰─..★.──────╯\n\n📝 Title:- {name1}\n\n├──⌨️ Resolution » {raw_text2}\n<pre><code>📚 Batch Name: {b_name}</code></pre>\n\n├──🔗 Url:  <a href= {url} >__**CLICK HERE**__</a>\n\n├──🤖 Bot Made By: 『ᴀɴᴋɪᴛ sʜᴀᴋʏᴀ』"
                 )
                 count += 1
                 continue
