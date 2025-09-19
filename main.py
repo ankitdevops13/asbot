@@ -46,7 +46,7 @@ bot = Client(
     bot_token=BOT_TOKEN
 )
 
-auth_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNzM0MTA1OTA2NCIsInRnX3VzZXJuYW1lIjoiQEFua2l0U2hha3lhIiwiaWF0IjoxNzUyMzA1MTc0fQ.3RIgokYBSvom_0d_aW4S7U-sjDKLNpWhi8_CKabkbZQ"
+auth_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNzM0MTA1OTA2NCIsInRnX3VzZXJuYW1lIjoiQEFua2l0U2hha3lhIiwiaWF0IjoxNzU4MjcxNjg1fQ.xdRrrm3xkWr8kDZFblSowp1syOnwjPQRtXOBX0N5ZAk"
 
 
 
