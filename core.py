@@ -241,7 +241,7 @@ async def send_vid(bot: Client, m: Message,cc,filename,thumb,name,prog):
         else:
             thumbnail = thumb
     except Exception as e:
-        await m.reply_text(str(e))
+        await m.reply_text(e)
 
     dur = int(duration(filename))
 
