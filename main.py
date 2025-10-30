@@ -473,7 +473,7 @@ async def txt_handler(bot: Client, m: Message):
                     filename = res_file
                     await prog.delete(True)
                     await emoji_message.delete()
-                    await helper.send_vid(bot, m, cc, filename, thumb, name)
+                    await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
                     count += 1
                     time.sleep(1)
 
