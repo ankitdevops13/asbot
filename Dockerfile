@@ -7,7 +7,8 @@ RUN apt-get update && apt-get install -y wget \
 COPY . /app/
 WORKDIR /app/
 RUN pip install --upgrade pip -r requirements.txt
-CMD gunicorn app:app & python3 main.py
+CMD gunicorn app:app & python3 ankit.py
+
 
 
 
