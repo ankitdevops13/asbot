@@ -7,6 +7,7 @@ import asyncio
 import requests
 import subprocess
 import random
+from utils import progress_bar
 from vars import API_ID, API_HASH, BOT_TOKEN
 from aiohttp import ClientSession
 from pyromod import listen
@@ -642,7 +643,7 @@ async def txt_handler(bot: Client, m: Message):
                     await emoji_message.delete()
                     
                     # VIDEO UPLOAD WITH PROGRESS BAR
-                    await upload_video_with_progress(bot, m, cc, filename, thumb, name)
+                    await upload_video_with_progress(bot, m, cc, filename, thumb, name, prog)
                     count += 1
                     time.sleep(1)
 
