@@ -783,7 +783,7 @@ async def text_handler(bot: Client, m: Message):
     except Exception as e:
         await m.reply_text(e)   
 
-@bot.on_message(filters.command(["ankit","deaduser"]) )
+@bot.on_message(filters.command(["member","misthi"]) )
 async def txt_handler(bot: Client, m: Message):
     user_id = m.from_user.id
     if user_id not in auth_users:
