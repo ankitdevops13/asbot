@@ -233,8 +233,8 @@ async def send_doc(bot: Client, m: Message,cc,ka,cc1,prog,count,name):
 
 async def send_vid(bot: Client, m: Message,cc,filename,thumb,name,prog):
     subprocess.run(f'ffmpeg -i "{filename}" -ss 00:01:00 -vframes 1 "{filename}.jpg"', shell=True)
-    await prog.delete (True)
-    reply = await m.reply_text(f"Uploading ..🚀..** - `{name}`\n╰────⌈**𝐀𝐍𝐊𝐈𝐓❤️**⌋────╯")
+    await prog.delete(True)
+    
     try:
         if thumb == "no":
             thumbnail = f"{filename}.jpg"
@@ -244,15 +244,27 @@ async def send_vid(bot: Client, m: Message,cc,filename,thumb,name,prog):
         await m.reply_text(e)
 
     dur = int(duration(filename))
-
     start_time = time.time()
 
     try:
-        await m.reply_video(filename,caption=cc, supports_streaming=True,height=720,width=1280,thumb=thumbnail,duration=dur,progress_args=(reply,start_time))
+        # Progress bar ke bina simple upload
+        await m.reply_video(
+            filename,
+            caption=cc, 
+            supports_streaming=True,
+            height=720,
+            width=1280,
+            thumb=thumbnail,
+            duration=dur
+            # progress_args remove kar diye
+        )
     except Exception:
-        await m.reply_document(filename,caption=cc, progress=progress_bar,progress_args=(reply,start_time))
-    os.remove(filename)
-
-    os.remove(f"{filename}.jpg")
-    await reply.delete (True)
+        # Progress bar ke bina simple upload
+        await m.reply_document(
+            filename,
+            caption=cc
+            # progress remove kar diya
+        )
     
+    os.remove(filename)
+    os.remove(f"{filename}.jpg")
