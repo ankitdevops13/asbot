@@ -12,7 +12,7 @@ import cloudscraper
 from logs import logging
 from bs4 import BeautifulSoup
 import core as helper
-
+from utils import progress_bar
 from vars import API_ID, API_HASH, BOT_TOKEN
 from aiohttp import ClientSession
 from pyromod import listen
@@ -473,7 +473,7 @@ async def txt_handler(bot: Client, m: Message):
                     filename = res_file
                     await prog.delete(True)
                     await emoji_message.delete()
-                    await helper.send_vid(bot, m, cc, filename, thumb, name)
+                    await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
                     count += 1
                     time.sleep(1)
 
