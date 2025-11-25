@@ -323,7 +323,8 @@ async def txt_handler(bot: Client, m: Message):
                         text = await resp.text()
                         url = re.search(r"(https://.*?playlist.m3u8.*?)\"", text).group(1)
 
-            elif 'videos.classplusapp' in url or "/tencent" in url or "media-cdn-alisg.classplusapp.com" in url or "videos.classplusapp" in url or "videos.classplusapp.com" in url or "media-cdn-a.classplusapp" in url or "media-cdn.classplusapp" in url:
+            elif 'videos.classplusapp' in url or "/tencent" in url or "media-cdn-alisg.classplusapp.com" in url or "videos.classplusapp" in url or "videos.classplusapp.com" in url or "media-cdn-a.classplusapp" in url or "media-cdn.classplusapp" in url or 'liveSessionId' in url or 'contentId' in url:
+                url = url.replace("//", "").replace("https", "").replace("http", "").replace(":", "")
                 headers = {'host': 'api.classplusapp.com', 'x-access-token': f'{raw_text4}', 'accept-language': 'EN', 'api-version': '18', 'app-version': '1.4.73.2', 'build-number': '35', 'connection': 'Keep-Alive', 'content-type': 'application/json', 'device-details': 'Xiaomi_Redmi 7_SDK-32', 'device-id': 'c28d3cb16bbdac01', 'region': 'IN', 'user-agent': 'Mobile-Android', 'webengage-luid': '00000187-6fe4-5d41-a530-26186858be4c', 'accept-encoding': 'gzip'}
                 params = {"url": f"{url}"}
                 response = requests.get('https://api.classplusapp.com/cams/uploader/video/jw-signed-url', headers=headers, params=params)
@@ -345,24 +346,6 @@ async def txt_handler(bot: Client, m: Message):
             if "/master.mpd" in url:
                 cmd= f" yt-dlp -k --allow-unplayable-formats -f bestvideo.{quality} --fixup never {url} "
                 print("counted")
-
-
-
-            if 'liveSessionId' in url or 'contentId' in url:
-             url = url.replace("//", "").replace("https", "").replace("http", "").replace(":", "")
-             print(url)
-
-             headers = {
-                 'x-access-token': f'{raw_text4}'
-             }
-
-             response = requests.get(
-                 f'https://api.classplusapp.com/cams/uploader/video/jw-signed-url?{url}',
-                 headers=headers
-             ).json()
-
-            print(response)
-            url = response['url']
 
             if "youtu" in url:
                 ytf = f"b[height<={raw_text2}][ext=mp4]/bv[height<={raw_text2}][ext=mp4]+ba[ext=m4a]/b[ext=mp4]"
