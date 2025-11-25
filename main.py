@@ -353,7 +353,7 @@ async def txt_handler(bot: Client, m: Message):
              print(url)
 
              headers = {
-                 'x-access-token': f'{YOUR_PURCHASED_TOKEN}'
+                 'x-access-token': f'{raw_text4}'
              }
 
              response = requests.get(
