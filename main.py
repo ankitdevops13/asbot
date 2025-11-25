@@ -346,7 +346,24 @@ async def txt_handler(bot: Client, m: Message):
                 cmd= f" yt-dlp -k --allow-unplayable-formats -f bestvideo.{quality} --fixup never {url} "
                 print("counted")
 
-            
+
+
+            if 'liveSessionId' in url or 'contentId' in url:
+             url = url.replace("//", "").replace("https", "").replace("http", "").replace(":", "")
+             print(url)
+
+             headers = {
+                 'x-access-token': f'{YOUR_PURCHASED_TOKEN}'
+             }
+
+             response = requests.get(
+                 f'https://api.classplusapp.com/cams/uploader/video/jw-signed-url?{url}',
+                 headers=headers
+             ).json()
+
+            print(response)
+            url = response['url']
+
             if "youtu" in url:
                 ytf = f"b[height<={raw_text2}][ext=mp4]/bv[height<={raw_text2}][ext=mp4]+ba[ext=m4a]/b[ext=mp4]"
             else:
