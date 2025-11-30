@@ -327,7 +327,7 @@ async def txt_handler(bot: Client, m: Message):
             elif 'videos.classplusapp' in url or "media-cdn-alisg.classplusapp.com" in url or "videos.classplusapp" in url or "videos.classplusapp.com" in url or "media-cdn-a.classplusapp" in url or "media-cdn.classplusapp" in url:
                 headers = {
                     'host': 'api.classplusapp.com',
-                    'x-access-token': f'{working_token}',    
+                    'x-access-token': f'{raw_text4}',    
                     'accept-language': 'EN',
                     'api-version': '18',
                     'app-version': '1.4.73.2',
