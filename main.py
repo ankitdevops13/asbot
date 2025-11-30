@@ -324,7 +324,7 @@ async def txt_handler(bot: Client, m: Message):
                         url = re.search(r"(https://.*?playlist.m3u8.*?)\"", text).group(1)
 
             
-            elif 'videos.classplusapp' in url or "media-cdn-alisg.classplusapp.com" in url or "videos.classplusapp" in url or "videos.classplusapp.com" in url or "media-cdn-a.classplusapp" in url or "media-cdn.classplusapp" in url:
+            if 'liveSessionId' in url or 'contentId' in url:
                 headers = {
                     'host': 'api.classplusapp.com',
                     'x-access-token': f'{raw_text4}',    
@@ -342,19 +342,14 @@ async def txt_handler(bot: Client, m: Message):
                     'accept-encoding': 'gzip'
                 }
                 
-                url = url.replace('https://tencdn.classplusapp.com/', 'https://media-cdn.classplusapp.com/tencent/')
-
+                url = url.replace("//", "").replace("https", "").replace("http", "").replace(":", "")
+                print(url)
                 params = {
                     "url": f"{url}"
                 }
 
                 res = requests.get("https://api.classplusapp.com/cams/uploader/video/jw-signed-url", params=params, headers=headers).json()
                 
-                if "testbook.com" in url or "classplusapp.com/drm" in url or "media-cdn.classplusapp.com/drm" in url:
-                    url = res['drmUrls']['manifestUrl']
-                    
-                else:
-                    url = res["url"]
                 
             elif '/master.mpd' in url:
              url = f"https://master-api-v3.vercel.app/pw/m3u8v2?url={url}&token={raw_text4}&authorization={auth_token}&q={raw_text2}"
