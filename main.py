@@ -324,7 +324,7 @@ async def txt_handler(bot: Client, m: Message):
                         url = re.search(r"(https://.*?playlist.m3u8.*?)\"", text).group(1)
 
 
-            elif 'videos.classplusapp' in url or "tencdn.classplusapp.com/" in url or "media-cdn-alisg.classplusapp.com" in url or "videos.classplusapp" in url or "videos.classplusapp.com" in url or "media-cdn-a.classplusapp" in url or "mmedia-cdn.classplusapp.com/tencent/" in url:
+            elif 'videos.classplusapp' in url or "tencdn.classplusapp.com/" in url or "media-cdn-alisg.classplusapp.com" in url or "videos.classplusapp" in url or "videos.classplusapp.com" in url or "media-cdn-a.classplusapp" in url or "mmedia-cdn.classplusapp.com" in url:
                 headers = {
                     'host': 'api.classplusapp.com',
                     'x-access-token': f'{raw_text4}',    
