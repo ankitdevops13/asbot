@@ -324,7 +324,16 @@ async def txt_handler(bot: Client, m: Message):
                         url = re.search(r"(https://.*?playlist.m3u8.*?)\"", text).group(1)
 
 
-            
+            elif 'videos.classplusapp' in url or "/tencent" in url or "media-cdn-alisg.classplusapp.com" in url or "videos.classplusapp" in url or "videos.classplusapp.com" in url or "media-cdn-a.classplusapp" in url or "media-cdn.classplusapp" in url:
+             headers = {
+                 'x-access-token': f'{raw_text4}'
+             }
+
+             response = requests.get(
+                 f'https://api.classplusapp.com/cams/uploader/video/jw-signed-url?{url}',
+                 headers=headers
+             ).json()
+                
             elif '/master.mpd' in url:
              url = f"https://master-api-v3.vercel.app/pw/m3u8v2?url={url}&token={raw_text4}&authorization={auth_token}&q={raw_text2}"
                 
