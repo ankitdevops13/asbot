@@ -324,7 +324,7 @@ async def txt_handler(bot: Client, m: Message):
                         url = re.search(r"(https://.*?playlist.m3u8.*?)\"", text).group(1)
 
 
-            elif 'videos.classplusapp' in url or "/tencent" in url or "media-cdn-alisg.classplusapp.com" in url or "videos.classplusapp" in url or "videos.classplusapp.com" in url or "media-cdn-a.classplusapp" in url or "media-cdn.classplusapp" in url:
+            elif 'videos.classplusapp' in url or "tencdn.classplusapp.com/" in url or "media-cdn-alisg.classplusapp.com" in url or "videos.classplusapp" in url or "videos.classplusapp.com" in url or "media-cdn-a.classplusapp" in url or "mmedia-cdn.classplusapp.com/tencent/" in url:
                 headers = {
                     'host': 'api.classplusapp.com',
                     'x-access-token': f'{raw_text4}',    
@@ -342,11 +342,6 @@ async def txt_handler(bot: Client, m: Message):
                     'accept-encoding': 'gzip'
                 }
                 
-                url = url.replace('https://tencdn.classplusapp.com/', 'https://media-cdn.classplusapp.com/tencent/')
-
-                params = {
-                    "url": f"{url}"
-                }
 
                 res = requests.get("https://api.classplusapp.com/cams/uploader/video/jw-signed-url", params=params, headers=headers).json()
                 
