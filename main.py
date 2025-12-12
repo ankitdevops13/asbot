@@ -345,18 +345,17 @@ async def txt_handler(bot: Client, m: Message):
             
              
              if 'liveSessionId' in url or 'contentId' in url:
+             url = url.replace("//", "").replace("https", "").replace("http", "").replace(":", "")
+                   print(url)
+               headers = {
+                 'x-access-token': f'{raw_text4}'
+               }               
 
-                 parsed = urlparse(url)
-                 query = parsed.query  # extract ?liveSessionId=...&contentId=...
-
-                 headers = {
-                    'x-access-token': f"{raw_text4}"
-                }
-
-                api_url = f'https://api.classplusapp.com/cams/uploader/video/jw-signed-url?{query}'
-
-                response = requests.get(api_url, headers=headers).json()
-
+             response = requests.get(
+                 f'https://api.classplusapp.com/cams/uploader/video/jw-signed-url?{url}',
+                 headers=headers
+             ).json()
+                
              print(response)   
             #if 'cpvod.testbook.com' in url:
                #url = requests.get(f'http://api.masterapi.tech/akamai-player-v3?url={url}', headers={'x-access-token': 'eyJjb3Vyc2VJZCI6IjQ1NjY4NyIsInR1dG9ySWQiOm51bGwsIm9yZ0lkIjo0ODA2MTksImNhdGVnb3J5SWQiOm51bGx9r'}).json()['url']
