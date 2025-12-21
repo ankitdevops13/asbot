@@ -330,7 +330,7 @@ async def txt_handler(bot: Client, m: Message):
                 url   = response.json()['url']
                 
             elif '/master.mpd' in url:
-             url = "https://anonymouspwplayer-25261acd1521.herokuapp.com/pw?url={url}&token={raw_text4}"
+             url = "https://anonymouspwplayer-25261acd1521.herokuapp.com/pw?url={url}&token={pw_token}"
                 
 
             elif "edge.api.brightcove.com" in url:
