@@ -777,7 +777,7 @@ async def text_handler(bot: Client, m: Message):
 
     except Exception as e:
         await m.reply_text(e)   
-                     
+
+
+
 bot.run()
-if __name__ == "__main__":
-    asyncio.run(main())
