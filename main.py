@@ -38,7 +38,7 @@ async def show_random_emojis(message):
     emoji_message = await message.reply_text(' '.join(random.choices(emojis, k=1)))
     return emoji_message
 
-owner_id = 7341059064
+owner_id = 6748792256
 
 # Initialize the bot
 bot = Client(
@@ -55,7 +55,7 @@ auth_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNzM0MTA1OTA2N
 cookies_file_path= "youtube_cookies.txt"
 
 
-auth_users = [1226915008,7341059064,8241640834,5817712634]
+auth_users = [1226915008,8085418235,5817712634,8172689585]
 
 # Command to authorize a user
 @bot.on_message(filters.command("auth") & filters.private)
@@ -326,15 +326,32 @@ async def txt_handler(bot: Client, m: Message):
                         url = re.search(r"(https://.*?playlist.m3u8.*?)\"", text).group(1)
 
 
-            elif 'videos.classplusapp' in url or "/tencent" in url or "media-cdn-alisg.classplusapp.com" in url or "videos.classplusapp" in url or "videos.classplusapp.com" in url or "media-cdn-a.classplusapp" in url or "media-cdn.classplusapp" in url:
-             headers = {
-                 'x-access-token': f'{raw_text4}'
-             }
+            elif 'classplusapp' in url or "testbook.com" in url or "classplusapp.com/drm" in url or "media-cdn.classplusapp.com/drm" in url:
+                url, contentId = url.split('&')
+                
+                headers = {
+                    'host': 'api.classplusapp.com',
+                    'x-access-token': f'{raw_text}',    
+                    'accept-language': 'EN',
+                    'api-version': '18',
+                    'app-version': '1.4.73.2',
+                    'build-number': '35',
+                    'connection': 'Keep-Alive',
+                    'content-type': 'application/json',
+                    'device-details': 'Xiaomi_Redmi 7_SDK-32',
+                    'device-id': 'c28d3cb16bbdac01',
+                    'region': 'IN',
+                    'user-agent': 'Mobile-Android',
+                    'webengage-luid': '00000187-6fe4-5d41-a530-26186858be4c',
+                    'accept-encoding': 'gzip'
+                }
+                
+                params = {
+                    'contentId': contentId,
+                    'offlineDownload': "false"
+                }
 
-             response = requests.get(
-                 f'https://api.classplusapp.com/cams/uploader/video/jw-signed-url?{url}',
-                 headers=headers
-             ).json()
+                url = requests.get("https://api.classplusapp.com/cams/uploader/video/jw-signed-url", params=params, headers=headers).json().get("url")
                 
             elif '/master.mpd' in url:
              url = f"https://master-api-v3.vercel.app/pw/m3u8v2?url={url}&token={raw_text4}&authorization={auth_token}&q={raw_text2}"
@@ -344,19 +361,7 @@ async def txt_handler(bot: Client, m: Message):
             
             
              
-             if 'liveSessionId' in url or 'contentId' in url:
-             url = url.replace("//", "").replace("https", "").replace("http", "").replace(":", "")
-                   print(url)
-               headers = {
-                 'x-access-token': f'{raw_text4}'
-               }               
-
-             response = requests.get(
-                 f'https://api.classplusapp.com/cams/uploader/video/jw-signed-url?{url}',
-                 headers=headers
-             ).json()
-                
-             print(response)   
+             
             #if 'cpvod.testbook.com' in url:
                #url = requests.get(f'http://api.masterapi.tech/akamai-player-v3?url={url}', headers={'x-access-token': 'eyJjb3Vyc2VJZCI6IjQ1NjY4NyIsInR1dG9ySWQiOm51bGwsIm9yZ0lkIjo0ODA2MTksImNhdGVnb3J5SWQiOm51bGx9r'}).json()['url']
                #url0 = f"https://dragoapi.vercel.app/video/{url}"
