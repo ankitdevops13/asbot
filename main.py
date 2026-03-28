@@ -330,11 +330,11 @@ async def txt_handler(bot: Client, m: Message):
 
 
             elif 'classplusapp' in url or "testbook.com" in url or "classplusapp.com/drm" in url or "media-cdn.classplusapp.com/drm" or "contentId=" in url:
-                contentId = url.split("contentId=")[-1].split(".m3u8")[0]
+                url, contentId = url.split("contentId=")[-1].split(".m3u8")[0]
                 
                 headers = {
                     'host': 'api.classplusapp.com',
-                    'x-access-token': raw_text4,
+                    'x-access-token': f'{raw_text4}',
                     'accept-language': 'EN',
                     'api-version': '18',
                     'app-version': '1.4.73.2',
@@ -354,11 +354,8 @@ async def txt_handler(bot: Client, m: Message):
                     'offlineDownload': "false"
                 }
 
-                url = requests.get(
-                    "https://api.classplusapp.com/cams/uploader/video/jw-signed-url",
-                    params=params,
-                    headers=headers
-                ).json().get("url")
+                response = requests.get('https://api.classplusapp.com/cams/uploader/video/jw-signed-url', headers=headers, params=params)
+                url   = response.json()['url']
 
             
             elif '/master.mpd' in url:
@@ -768,7 +765,28 @@ def decode_jwt(token):
     return json.loads(decoded)
 
 
-@bot.on_message(filters.command("token"))
+
+@app.on_message(filters.command("token"))
+async def token_details(client, message):
+
+    try:
+        token = message.text.split(" ", 1)[1]
+
+        payload = token.split(".")[1]
+        payload += "=" * (-len(payload) % 4)
+
+        decoded = base64.urlsafe_b64decode(payload).decode()
+        data = json.loads(decoded)
+
+        pretty = json.dumps(data, indent=4)
+
+        await message.reply(f"```\n{pretty}\n```")
+
+    except Exception as e:
+        await message.reply(f"❌ Invalid Token\n{e}")
+
+
+@bot.on_message(filters.command("token2"))
 async def token_info(client, message):
 
     try:
