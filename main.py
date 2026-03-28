@@ -28,6 +28,9 @@ from pyrogram.errors import FloodWait
 from pyrogram.errors.exceptions.bad_request_400 import StickerEmojiInvalid
 from pyrogram.types.messages_and_media import message
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+import base64
+import datetime
+
 
 photologo = 'https://tinypic.host/images/2025/02/07/DeWatermark.ai_1738952933236-1.png'
 photoyt = "https://www.theproche.com/wp-content/uploads/2022/03/youtube-thumbnail.png"
@@ -326,12 +329,12 @@ async def txt_handler(bot: Client, m: Message):
                         url = re.search(r"(https://.*?playlist.m3u8.*?)\"", text).group(1)
 
 
-            elif 'classplusapp' in url or "testbook.com" in url or "classplusapp.com/drm" in url or "media-cdn.classplusapp.com/drm" in url or "contentId=" in url:
+            elif 'classplusapp' in url or "testbook.com" in url or "classplusapp.com/drm" in url or "media-cdn.classplusapp.com/drm" or "contentId=" in url:
                 contentId = url.split("contentId=")[-1].split(".m3u8")[0]
                 
                 headers = {
                     'host': 'api.classplusapp.com',
-                    'x-access-token': f'{raw_text4}',    
+                    'x-access-token': raw_text4,
                     'accept-language': 'EN',
                     'api-version': '18',
                     'app-version': '1.4.73.2',
@@ -351,8 +354,13 @@ async def txt_handler(bot: Client, m: Message):
                     'offlineDownload': "false"
                 }
 
-                url = requests.get("https://api.classplusapp.com/cams/uploader/video/jw-signed-url", params=params, headers=headers).json().get("url")
-                
+                url = requests.get(
+                    "https://api.classplusapp.com/cams/uploader/video/jw-signed-url",
+                    params=params,
+                    headers=headers
+                ).json().get("url")
+
+            
             elif '/master.mpd' in url:
              url = f"https://master-api-v3.vercel.app/pw/m3u8v2?url={url}&token={raw_text4}&authorization={auth_token}&q={raw_text2}"
                 
@@ -751,6 +759,59 @@ async def txt_handler(bot: Client, m: Message):
     except Exception as e:
         await m.reply_text(e)
     await m.reply_text("<pre><code>🔰Done🔰\n\nDownloaded By ⌈✨ 𝐀𝐧𝐤𝐢𝐭 𝐒𝐡𝐚𝐤𝐲𝐚🇮🇳 ✨⌋</code></pre>")
+
+
+def decode_jwt(token):
+    payload = token.split(".")[1]
+    payload += "=" * (-len(payload) % 4)
+    decoded = base64.urlsafe_b64decode(payload)
+    return json.loads(decoded)
+
+
+@bot.on_message(filters.command("token"))
+async def token_info(client, message):
+
+    try:
+        token = message.text.split(" ", 1)[1]
+
+        data = decode_jwt(token)
+
+        name = data.get("name")
+        user_id = data.get("id")
+        org_id = data.get("orgId")
+        mobile = data.get("mobile")
+        org_code = data.get("orgCode")
+
+        iat = data.get("iat")
+        exp = data.get("exp")
+
+        issued = datetime.datetime.fromtimestamp(iat)
+        expiry = datetime.datetime.fromtimestamp(exp)
+
+        now = datetime.datetime.now()
+
+        status = "✅ VALID" if exp > int(now.timestamp()) else "❌ EXPIRED"
+
+        reply = f"""
+🔐 **Token Details**
+
+👤 Name: `{name}`
+🆔 User ID: `{user_id}`
+🏫 Org ID: `{org_id}`
+📱 Mobile: `{mobile}`
+🔑 Org Code: `{org_code}`
+
+🕒 Issued: `{issued}`
+⌛ Expiry: `{expiry}`
+
+⚡ Status: {status}
+"""
+
+        await message.reply(reply)
+
+    except Exception as e:
+        await message.reply(f"❌ Invalid Token\n\nError: {e}")
+
 
 
 bot.run()
