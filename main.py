@@ -330,11 +330,14 @@ async def txt_handler(bot: Client, m: Message):
 
 
             elif 'classplusapp' in url or "testbook.com" in url or "classplusapp.com/drm" in url or "media-cdn.classplusapp.com/drm" or "contentId=" in url:
-                url, contentId = url.split("contentId=")[-1].split(".m3u8")[0]
+                content = url.split("contentId=")[1]
+                if ".m3u8" in content:
+                    content = content.split(".m3u8")[0]
+                contentId = "contentId=" + content
                 
                 headers = {
                     'host': 'api.classplusapp.com',
-                    'x-access-token': f'{raw_text4}',
+                    'x-access-token': raw_text4',
                     'accept-language': 'EN',
                     'api-version': '18',
                     'app-version': '1.4.73.2',
@@ -356,6 +359,9 @@ async def txt_handler(bot: Client, m: Message):
 
                 response = requests.get('https://api.classplusapp.com/cams/uploader/video/jw-signed-url', headers=headers, params=params)
                 url   = response.json()['url']
+                print(contentId)
+                print(response)
+                print(url)
 
             
             elif '/master.mpd' in url:
