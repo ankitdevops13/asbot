@@ -546,12 +546,19 @@ async def txt_handler(bot: Client, m: Message):
                         url = re.search(r"(https://.*?playlist.m3u8.*?)\"", text).group(1)
 
 
-            elif  'contentId=' in url:
-                content = url.replace("https://", "").split("contentId=")[-1]
+            elif "contentId=" in url or "contentHashId=" in url:
+                
+                if "contentId=" in url:
+                    content = url.replace("https://", "").split("contentId=")[-1]
+
+                else:
+                    content = url.split("contentHashId=")[-1]
+                    
+                content = content.split("&")[0]
                 
                 if ".m3u8" in content:
                     content = content.split(".m3u8")[0]
-                
+                    
                 
                 headers = {
                     'host': 'api.classplusapp.com',
