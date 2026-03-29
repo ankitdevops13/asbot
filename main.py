@@ -364,6 +364,7 @@ async def txt_handler(bot: Client, m: Message):
                 print(url)
 
             
+    
             elif '/master.mpd' in url:
              url = f"https://master-api-v3.vercel.app/pw/m3u8v2?url={url}&token={raw_text4}&authorization={auth_token}&q={raw_text2}"
                 
@@ -642,9 +643,12 @@ async def txt_handler(bot: Client, m: Message):
                         url = re.search(r"(https://.*?playlist.m3u8.*?)\"", text).group(1)
 
             elif 'classplusapp' in url or "testbook.com" in url or "classplusapp.com/drm" in url or "media-cdn.classplusapp.com/drm" in url or "contentId=" in url:
-                url, content = url.split("contentId=")[1]
+                
+                content = url.split("contentId=")[1]
+                
                 if ".m3u8" in content:
                     content = content.split(".m3u8")[0]
+                    
                 contentId = "contentId=" + content
                 
                 headers = {
@@ -669,14 +673,23 @@ async def txt_handler(bot: Client, m: Message):
                     'offlineDownload': "false"
                 }
 
-                res = requests.get("https://api.classplusapp.com/cams/uploader/video/jw-signed-url", params=params, headers=headers).json()
+                res = requests.get(
+                    "https://api.classplusapp.com/cams/uploader/video/jw-signed-url",
+                    params=params,
+                    headers=headers
+                ).json()
                 
                 if "testbook.com" in url or "classplusapp.com/drm" in url or "media-cdn.classplusapp.com/drm" in url:
-                    url = res['drmUrls']['manifestUrl']
-                    
+                    final_url = res['drmUrls']['manifestUrl']
                 else:
-                    url = res["url"]
+                    final_url = res["url"]
                     
+                print("\nSigned URL:\n", final_url)
+            else:
+                print("Invalid Link")
+
+
+    
                 
             elif '/master.mpd' in url:
              url = f"https://master-api-v3.vercel.app/pw/m3u8v2?url={url}&token={raw_text4}&authorization={auth_token}&q={raw_text2}"
