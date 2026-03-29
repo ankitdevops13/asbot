@@ -329,7 +329,7 @@ async def txt_handler(bot: Client, m: Message):
                         url = re.search(r"(https://.*?playlist.m3u8.*?)\"", text).group(1)
 
 
-            elif 'classplusapp' in url or "testbook.com" in url or "classplusapp.com/drm" in url or "media-cdn.classplusapp.com/drm" in url or "contentId=" in url:
+            elif 'classplusapp' in url or "testbook.com" in url or "classplusapp.com/drm" in url or "media-cdn.classplusapp.com/drm" in url or "https://contentId=" in url:
                 content = url.split("contentId=")[1]
                 if ".m3u8" in content:
                     content = content.split(".m3u8")[0]
@@ -337,7 +337,7 @@ async def txt_handler(bot: Client, m: Message):
                 
                 headers = {
                     'host': 'api.classplusapp.com',
-                    'x-access-token': f'{raw_text4}',
+                    'x-access-token': f'{raw_text4}',    
                     'accept-language': 'EN',
                     'api-version': '18',
                     'app-version': '1.4.73.2',
@@ -357,15 +357,27 @@ async def txt_handler(bot: Client, m: Message):
                     'offlineDownload': "false"
                 }
 
-                response = requests.get('https://api.classplusapp.com/cams/uploader/video/jw-signed-url', headers=headers, params=params)
-                url   = response.json()['url']
+                res = requests.get(
+                    "https://api.classplusapp.com/cams/uploader/video/jw-signed-url",
+                    params=params,
+                    headers=headers
+                ).json()
+                
+                if "testbook.com" in url or "classplusapp.com/drm" in url or "media-cdn.classplusapp.com/drm" in url:
+                    final_url = res['drmUrls']['manifestUrl']
+                else:
+                    final_url = res["url"]
+                    
+                print("\nSigned URL:\n", final_url)
+            else:
+                print("Invalid Link")
                 print(contentId)
                 print(response)
                 print(url)
 
             
     
-            elif '/master.mpd' in url:
+            if '/master.mpd' in url:
              url = f"https://master-api-v3.vercel.app/pw/m3u8v2?url={url}&token={raw_text4}&authorization={auth_token}&q={raw_text2}"
                 
             name1 = links[i][0].replace("\t", "").replace(":", "").replace("/", "").replace("+", "").replace("#", "").replace("|", "").replace("@", "").replace("*", "").replace(".", "").replace("https", "").replace("http", "").strip()
@@ -642,14 +654,14 @@ async def txt_handler(bot: Client, m: Message):
                         text = await resp.text()
                         url = re.search(r"(https://.*?playlist.m3u8.*?)\"", text).group(1)
 
-            elif 'classplusapp.com' in url or "testbook.com" in url or "classplusapp.com/drm" in url or "media-cdn.classplusapp.com/drm" in url or "contentId=" in url:
+            elif 'classplusapp.com' in url or "testbook.com" in url or "classplusapp.com/drm" in url or "media-cdn.classplusapp.com/drm" in url or "https://contentId=" in url:
                 
-                content = url.split("contentId=")[1]
+                content = url.split("https://contentId=")[1]
                 
                 if ".m3u8" in content:
                     content = content.split(".m3u8")[0]
                     
-                contentId = "contentId=" + content
+                contentId = content
                 
                 headers = {
                     'host': 'api.classplusapp.com',
@@ -762,7 +774,20 @@ async def txt_handler(bot: Client, m: Message):
                             # Clean up the downloaded file
                             if os.path.exists(f'{name}.jpg'):
                                 os.remove(f'{name}.jpg')         
-        
+
+                elif ".pdf" in url:
+                    try:
+                        cmd = f'yt-dlp -o "{name}.pdf" "{url}"'
+                        download_cmd = f"{cmd} -R 25 --fragment-retries 25"
+                        os.system(download_cmd)
+                        copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)
+                        count += 1
+                        os.remove(f'{name}.pdf')
+                    except FloodWait as e:
+                        await m.reply_text(str(e))
+                        time.sleep(e.x)
+                        count += 1
+                        continue
                 
                 elif "youtu" in url:
                     try:
