@@ -367,15 +367,15 @@ async def txt_handler(bot: Client, m: Message):
                 if "testbook.com" in url or "classplusapp.com/drm" in url or "media-cdn.classplusapp.com/drm" in url:
                     final_url = res['drmUrls']['manifestUrl']
                 else:
-                    final_url = res["final_url"]
+                    final_url = res["url"]
                     
                 print("\nSigned URL:\n", final_url)
+                print("response I'd\n", contentId)
+                print("respose", res)
+                print("Final URL\n", final_url)
             else:
                 print("Invalid Link")
-                print(contentId)
-                print(response)
-                print(url)
-
+                
             
     
             if '/master.mpd' in url:
