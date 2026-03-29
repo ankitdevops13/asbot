@@ -329,11 +329,12 @@ async def txt_handler(bot: Client, m: Message):
                         url = re.search(r"(https://.*?playlist.m3u8.*?)\"", text).group(1)
 
 
-            elif 'classplusapp' in url or "testbook.com" in url or "classplusapp.com/drm" in url or "media-cdn.classplusapp.com/drm" in url or "https://contentId=" in url:
-                content = url.split("contentId=")[1]
+            elif 'classplusapp' in url or "testbook.com" in url or "classplusapp.com/drm" in url or "media-cdn.classplusapp.com/drm" in url or "contentId=" in url:
+                content = url.replace("https://", "").split("contentId=")[-1]
+                
                 if ".m3u8" in content:
                     content = content.split(".m3u8")[0]
-                contentId = "contentId=" + content
+                contentId = content
                 
                 headers = {
                     'host': 'api.classplusapp.com',
@@ -366,7 +367,7 @@ async def txt_handler(bot: Client, m: Message):
                 if "testbook.com" in url or "classplusapp.com/drm" in url or "media-cdn.classplusapp.com/drm" in url:
                     final_url = res['drmUrls']['manifestUrl']
                 else:
-                    final_url = res["url"]
+                    final_url = res["final_url"]
                     
                 print("\nSigned URL:\n", final_url)
             else:
