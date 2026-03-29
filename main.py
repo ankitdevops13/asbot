@@ -909,5 +909,3 @@ async def token_info(client, message):
 
 
 bot.run()
-if __name__ == "__main__":
-    asyncio.run(main())
