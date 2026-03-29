@@ -59,9 +59,173 @@ cookies_file_path= "youtube_cookies.txt"
 
 
 auth_users = [1226915008,6748792256,8085418235,5817712634,8172689585]
+import sqlite3
+import os
+
+# Database setup
+DB_PATH = "bot_database.db"
+
+def init_database():
+    """Initialize SQLite database for storing authorized users"""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    
+    # Create auth_users table if it doesn't exist
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS auth_users (
+            user_id INTEGER PRIMARY KEY,
+            authorized_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            authorized_by INTEGER
+        )
+    ''')
+    
+    # Insert default/owner users if they don't exist
+    default_users = [1226915008, 8085418235, 5817712634, 8172689585]
+    for user_id in default_users:
+        cursor.execute('''
+            INSERT OR IGNORE INTO auth_users (user_id, authorized_by)
+            VALUES (?, ?)
+        ''', (user_id, 6748792256))  # Owner ID as authorized_by
+    
+    conn.commit()
+    conn.close()
+
+# Initialize database when script starts
+init_database()
+
+def add_auth_user(user_id, authorized_by):
+    """Add user to authorized list in database"""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT OR IGNORE INTO auth_users (user_id, authorized_by)
+        VALUES (?, ?)
+    ''', (user_id, authorized_by))
+    conn.commit()
+    conn.close()
+
+def remove_auth_user(user_id):
+    """Remove user from authorized list"""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM auth_users WHERE user_id = ?', (user_id,))
+    conn.commit()
+    conn.close()
+
+def is_auth_user(user_id):
+    """Check if user is authorized"""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute('SELECT 1 FROM auth_users WHERE user_id = ?', (user_id,))
+    result = cursor.fetchone()
+    conn.close()
+    return result is not None
+
+def get_all_auth_users():
+    """Get list of all authorized users"""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute('SELECT user_id, authorized_at, authorized_by FROM auth_users ORDER BY authorized_at DESC')
+    users = cursor.fetchall()
+    conn.close()
+    return users
+
+@bot.on_message(filters.command("auth") & filters.private)
+async def authorize_user(client: Client, message: Message):
+    user_id = message.from_user.id
+    
+    # Check if user is owner
+    if user_id != owner_id:
+        await message.reply("❌ You are not authorized to use this command. Only the bot owner can authorize users.")
+        return
+    
+    try:
+        # Parse user ID from command
+        args = message.text.split()
+        if len(args) < 2:
+            await message.reply("📝 **Usage:** `/auth <user_id>`\n\nExample: `/auth 1234567890`")
+            return
+        
+        target_user_id = int(args[1])
+        
+        # Check if user is already authorized
+        if is_auth_user(target_user_id):
+            await message.reply(f"✅ User `{target_user_id}` is already authorized.")
+            return
+        
+        # Add user to database
+        add_auth_user(target_user_id, user_id)
+        await message.reply(f"✅ User `{target_user_id}` has been authorized successfully!")
+        
+    except ValueError:
+        await message.reply("❌ Invalid user ID. Please provide a numeric user ID.")
+    except Exception as e:
+        await message.reply(f"❌ Error: {str(e)}")
+
+
+@bot.on_message(filters.command("unauth") & filters.private)
+async def unauthorize_user(client: Client, message: Message):
+    user_id = message.from_user.id
+    
+    # Check if user is owner
+    if user_id != owner_id:
+        await message.reply("❌ You are not authorized to use this command. Only the bot owner can unauthorize users.")
+        return
+    
+    try:
+        args = message.text.split()
+        if len(args) < 2:
+            await message.reply("📝 **Usage:** `/unauth <user_id>`\n\nExample: `/unauth 1234567890`")
+            return
+        
+        target_user_id = int(args[1])
+        
+        # Prevent removing owner
+        if target_user_id == owner_id:
+            await message.reply("❌ Cannot remove the bot owner from authorized list.")
+            return
+        
+        # Check if user exists
+        if not is_auth_user(target_user_id):
+            await message.reply(f"❌ User `{target_user_id}` is not authorized.")
+            return
+        
+        # Remove user from database
+        remove_auth_user(target_user_id)
+        await message.reply(f"✅ User `{target_user_id}` has been unauthorized.")
+        
+    except ValueError:
+        await message.reply("❌ Invalid user ID. Please provide a numeric user ID.")
+    except Exception as e:
+        await message.reply(f"❌ Error: {str(e)}")
+
+@bot.on_message(filters.command("authlist") & filters.private)
+async def list_auth_users(client: Client, message: Message):
+    user_id = message.from_user.id
+    
+    # Check if user is owner
+    if user_id != owner_id:
+        await message.reply("❌ Only the bot owner can view the authorized users list.")
+        return
+    
+    users = get_all_auth_users()
+    
+    if not users:
+        await message.reply("📋 No authorized users found.")
+        return
+    
+    # Format the list
+    msg = "📋 **Authorized Users List**\n\n"
+    for i, (uid, auth_time, auth_by) in enumerate(users, 1):
+        msg += f"{i}. **User ID:** `{uid}`\n"
+        msg += f"   📅 **Authorized:** `{auth_time}`\n"
+        msg += f"   👤 **By:** `{auth_by}`\n\n"
+    
+    await message.reply(msg, parse_mode=ParseMode.MARKDOWN)
+
 
 # Command to authorize a user
-@bot.on_message(filters.command("auth") & filters.private)
+
 async def authorize_user(client, message):
     if message.from_user.id == owner_id:  # Ensure only the owner can authorize
         try:
@@ -217,7 +381,7 @@ async def youtube_to_txt(client, message: Message):
 @bot.on_message(filters.command(["ankit","deaduser"]) )
 async def txt_handler(bot: Client, m: Message):
     user_id = m.from_user.id
-    if user_id not in auth_users:
+    if user_id not in is_auth_users:
         await m.reply_text("**HEY BUDDY THIS IS ONLY FOR MY ADMINS  **")
     else:
         editable = await m.reply_text(f"<pre><code>**🔹Hi I am Poweful TXT Downloader📥 Bot.**</code></pre>\n<pre><code>🔹**Send me the TXT file and wait.**</code></pre>")
@@ -358,7 +522,7 @@ async def txt_handler(bot: Client, m: Message):
                     'offlineDownload': "false"
                 }
 
-                res = requests.get(
+                response = requests.get(
                     "https://api.classplusapp.com/cams/uploader/video/jw-signed-url",
                     params=params,
                     headers=headers
@@ -367,11 +531,11 @@ async def txt_handler(bot: Client, m: Message):
                 if "testbook.com" in url or "classplusapp.com/drm" in url or "media-cdn.classplusapp.com/drm" in url:
                     final_url = res['drmUrls']['manifestUrl']
                 else:
-                    final_url = res["url"]
+                    final_url = response["url"]
                     
                 print("\nSigned URL:\n", final_url)
-                print("response I'd\n", contentId)
-                print("respose", res)
+                print("response I'd\n", content)
+                print("respose", response)
                 print("Final URL\n", final_url)
             else:
                 print("Invalid Link")
@@ -544,7 +708,7 @@ async def txt_handler(bot: Client, m: Message):
 @bot.on_message(filters.command(["member","misthi"]) )
 async def txt_handler(bot: Client, m: Message):
     user_id = m.from_user.id
-    if user_id not in auth_users:
+    if user_id not in is_auth_users:
         await m.reply_text("**HEY BUDDY THIS IS ONLY FOR MY ADMINS  **")
     else:
         editable = await m.reply_text(f"<pre><code>**🔹Hi I am Poweful TXT Downloader📥 Bot.**</code></pre>\n<pre><code>🔹**Send me the TXT file and wait.**</code></pre>")
@@ -685,7 +849,7 @@ async def txt_handler(bot: Client, m: Message):
                     'offlineDownload': "false"
                 }
 
-                res = requests.get(
+                response = requests.get(
                     "https://api.classplusapp.com/cams/uploader/video/jw-signed-url",
                     params=params,
                     headers=headers
@@ -694,7 +858,7 @@ async def txt_handler(bot: Client, m: Message):
                 if "testbook.com" in url or "classplusapp.com/drm" in url or "media-cdn.classplusapp.com/drm" in url:
                     url = res['drmUrls']['manifestUrl']
                 else:
-                    url = res["url"]
+                    url = response["url"]
                     
                 print("\nSigned URL:\n", url)
             else:
