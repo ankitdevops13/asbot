@@ -394,7 +394,7 @@ async def get_credit_name(bot, m, editable, user_id, user_first_name, user_usern
         f"**Default:** Owner's credit"
     )
     
-    await editable.edit(f"<pre><code> credit_options </code></pre>")
+    await editable.edit(credit_options)
     input3: Message = await bot.listen(editable.chat.id)
     raw_text3 = input3.text
     await input3.delete(True)
