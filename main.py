@@ -377,11 +377,64 @@ async def youtube_to_txt(client, message: Message):
 
     # Remove the temporary text file after sending
     os.remove(txt_file)
+async def get_credit_name(bot, m, editable, user_id, user_first_name, user_username, user_mention):
+    """Helper function to get credit name from user"""
+    
+    owner_credit = f"𝐀𝐧𝐤𝐢𝐭 𝐒𝐡𝐚𝐤𝐲𝐚™🇮🇳"
+    
+    credit_options = (
+        f"**Choose your credit name:**\n\n"
+        f"👤 **Your Name:** {user_mention}\n"
+        f"🔖 **Username:** @{user_username if user_username else 'Not set'}\n\n"
+        f"**Options:**\n"
+        f"• Send `de` - Use bot owner's name\n"
+        f"• Send `me` - Use your Telegram name\n"
+        f"• Send `username` - Use your @username\n"
+        f"• Or type any custom name\n\n"
+        f"**Default:** Owner's credit"
+    )
+    
+    await editable.edit(f"<pre><code> credit_options </code></pre>")
+    input3: Message = await bot.listen(editable.chat.id)
+    raw_text3 = input3.text
+    await input3.delete(True)
+    
+    # Process selection
+    if raw_text3 == 'de':
+        CR = owner_credit
+        credit_display = "Bot Owner"
+    elif raw_text3 == 'me':
+        CR = user_mention
+        credit_display = user_first_name
+    elif raw_text3 == 'username':
+        if user_username:
+            CR = f"@{user_username}"
+            credit_display = f"@{user_username}"
+        else:
+            CR = user_mention
+            credit_display = f"{user_first_name} (no username)"
+    else:
+        CR = raw_text3
+        credit_display = "Custom Name"
+    
+    # Show confirmation
+    confirm_msg = await m.reply_text(f"✅ Credit set to: {CR}")
+    await asyncio.sleep(1)
+    await confirm_msg.delete()
+    
+    return CR
 
 @bot.on_message(filters.command(["ankit","deaduser"]) )
 async def txt_handler(bot: Client, m: Message):
     user_id = m.from_user.id
-    if user_id not in is_auth_users:
+    # Get user details
+    user_first_name = m.from_user.first_name
+    user_last_name = m.from_user.last_name or ""
+    user_full_name = f"{user_first_name} {user_last_name}".strip()
+    user_username = m.from_user.username
+    user_mention = f"<a href='tg://user?id={user_id}'>{user_full_name}</a>"
+    
+    if user_id not in is_auth_user:
         await m.reply_text("**HEY BUDDY THIS IS ONLY FOR MY ADMINS  **")
     else:
         editable = await m.reply_text(f"<pre><code>**🔹Hi I am Poweful TXT Downloader📥 Bot.**</code></pre>\n<pre><code>🔹**Send me the TXT file and wait.**</code></pre>")
@@ -443,14 +496,13 @@ async def txt_handler(bot: Client, m: Message):
     except Exception:
             res = "UN"
 
-    await editable.edit("<pre><code>**Enter Your Name**</code></pre>\n<pre><code>Send `de` for use default</code></pre>")
-    input3: Message = await bot.listen(editable.chat.id)
-    raw_text3 = input3.text
-    await input3.delete(True)
-    if raw_text3 == 'de':
-        CR = credit
-    else:
-        CR = raw_text3
+    # ========== CREDIT NAME SECTION (4 spaces indentation) ==========
+    # Get credit name from user
+    CR = await get_credit_name(
+        bot, m, editable, user_id, 
+        user_first_name, user_username, user_mention
+    )
+    # ========== END CREDIT NAME SECTION ==========
 
     pw_token = f"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NDI4NDE2NDAuNTQyLCJkYXRhIjp7Il9pZCI6IjY1OWZjZWU5YmI4YjFkMDAxOGFmYTExZCIsInVzZXJuYW1lIjoiODUzOTkyNjE5MCIsImZpcnN0TmFtZSI6IlNoaXR0dSIsImxhc3ROYW1lIjoiU2luZ2giLCJvcmdhbml6YXRpb24iOnsiX2lkIjoiNWViMzkzZWU5NWZhYjc0NjhhNzlkMTg5Iiwid2Vic2l0ZSI6InBoeXNpY3N3YWxsYWguY29tIiwibmFtZSI6IlBoeXNpY3N3YWxsYWgifSwiZW1haWwiOiJzaGl0dHVrdW1hcjM3QGdtYWlsLmNvbSIsInJvbGVzIjpbIjViMjdiZDk2NTg0MmY5NTBhNzc4YzZlZiJdLCJjb3VudHJ5R3JvdXAiOiJJTiIsInR5cGUiOiJVU0VSIn0sImlhdCI6MTc0MjIzNjg0MH0.oIubH2nR-onRJrzCAGcGU96tsmAzRYyXEnlaA4oIvcU"
     await editable.edit("<pre><code>**Enter CP or PW Token For 𝐌𝐏𝐃 𝐔𝐑𝐋**</code></pre>\n<pre><code>Send  `unknown`  for use default</code></pre>")
@@ -708,7 +760,7 @@ async def txt_handler(bot: Client, m: Message):
 @bot.on_message(filters.command(["member","misthi"]) )
 async def txt_handler(bot: Client, m: Message):
     user_id = m.from_user.id
-    if user_id not in is_auth_users:
+    if user_id not in is_auth_user:
         await m.reply_text("**HEY BUDDY THIS IS ONLY FOR MY ADMINS  **")
     else:
         editable = await m.reply_text(f"<pre><code>**🔹Hi I am Poweful TXT Downloader📥 Bot.**</code></pre>\n<pre><code>🔹**Send me the TXT file and wait.**</code></pre>")
