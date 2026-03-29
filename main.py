@@ -427,6 +427,10 @@ async def get_credit_name(bot, m, editable, user_id, user_first_name, user_usern
 @bot.on_message(filters.command(["ankit","deaduser"]) )
 async def txt_handler(bot: Client, m: Message):
     user_id = m.from_user.id
+    if not is_auth_user(user_id):
+        await m.reply_text("**HEY BUDDY THIS IS ONLY FOR MY ADMINS**")
+        return
+    
     # Get user details
     user_first_name = m.from_user.first_name
     user_last_name = m.from_user.last_name or ""
@@ -434,10 +438,7 @@ async def txt_handler(bot: Client, m: Message):
     user_username = m.from_user.username
     user_mention = f"<a href='tg://user?id={user_id}'>{user_full_name}</a>"
     
-    if user_id not in is_auth_user:
-        await m.reply_text("**HEY BUDDY THIS IS ONLY FOR MY ADMINS  **")
-    else:
-        editable = await m.reply_text(f"<pre><code>**🔹Hi I am Poweful TXT Downloader📥 Bot.**</code></pre>\n<pre><code>🔹**Send me the TXT file and wait.**</code></pre>")
+    editable = await m.reply_text(f"<pre><code>**🔹Hi I am Poweful TXT Downloader📥 Bot.**</code></pre>\n<pre><code>🔹**Send me the TXT file and wait.**</code></pre>")
     input: Message = await bot.listen(editable.chat.id)
     x = await input.download()
     await input.delete(True)
