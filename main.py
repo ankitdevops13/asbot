@@ -766,7 +766,7 @@ def decode_jwt(token):
 
 
 
-@app.on_message(filters.command("token"))
+@bot.on_message(filters.command("token"))
 async def token_details(client, message):
 
     try:
