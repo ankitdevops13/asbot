@@ -642,14 +642,14 @@ async def txt_handler(bot: Client, m: Message):
                         text = await resp.text()
                         url = re.search(r"(https://.*?playlist.m3u8.*?)\"", text).group(1)
 
-            elif 'classplusapp' in url or "testbook.com" in url or "classplusapp.com/drm" in url or "media-cdn.classplusapp.com/drm" in url or "contentId=" in url:
+            elif 'classplusapp.com' in url or "testbook.com" in url or "classplusapp.com/drm" in url or "media-cdn.classplusapp.com/drm" in url or "contentId=" in url:
                 
                 content = url.split("contentId=")[1]
                 
                 if ".m3u8" in content:
                     content = content.split(".m3u8")[0]
                     
-                contentId = content
+                contentId = "contentId=" + content
                 
                 headers = {
                     'host': 'api.classplusapp.com',
@@ -669,7 +669,7 @@ async def txt_handler(bot: Client, m: Message):
                 }
                 
                 params = {
-                    'contentId': contentId,
+                    'contentId': content,
                     'offlineDownload': "false"
                 }
 
