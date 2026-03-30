@@ -80,7 +80,7 @@ def init_database():
     ''')
     
     # Insert default/owner users if they don't exist
-    default_users = [1226915008, 8085418235, 5817712634, 8172689585]
+    default_users = [1226915008, 8085418235, 6748792256, 5817712634, 8172689585]
     for user_id in default_users:
         cursor.execute('''
             INSERT OR IGNORE INTO auth_users (user_id, authorized_by)
@@ -551,9 +551,10 @@ async def txt_handler(bot: Client, m: Message):
                 if "contentId=" in url:
                     content = url.replace("https://", "").split("contentId=")[-1]
 
-                else:
+                elif "contentHashId=" in url:
                     content = url.split("contentHashId=")[-1]
-                    
+                else:
+                    return None
                 content = content.split("&")[0]
                 
                 if ".m3u8" in content:
