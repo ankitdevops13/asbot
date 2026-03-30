@@ -546,16 +546,12 @@ async def txt_handler(bot: Client, m: Message):
                         url = re.search(r"(https://.*?playlist.m3u8.*?)\"", text).group(1)
 
 
-            elif "contentId=" in url or "contentHashId=" in url:
+            elif 'contentId=' in url or "master.m3u8&contentHashIdl=" in url:
                 
-                if "contentId=" in url:
-                    content = url.replace("https://", "").split("contentId=")[-1]
+                content = url.replace("https://", "").split("contentId=")[-1]
 
-                elif "contentHashId=" in url:
-                    content = url.split("contentHashId=")[-1]
-                else:
-                    return None
-                content = content.split("&")[0]
+                if "master.m3u8&contentHashIdl=" in url:
+                    content = url.split("master.m3u8&contentHashIdl=")[1]
                 
                 if ".m3u8" in content:
                     content = content.split(".m3u8")[0]
