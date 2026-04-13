@@ -1072,7 +1072,7 @@ def convert_pw_link(url):
     
     return decoded
     
-@bot.on_message(filters.text & filters.private)
+@bot.on_message(filters.text & filters.private & ~filters.command())
 async def text_handler(bot: Client, m: Message):
     if m.from_user.is_bot:
         return
