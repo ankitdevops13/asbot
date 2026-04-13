@@ -1080,11 +1080,32 @@ def convert_pw_link(url):
         print(f"[PW Converter] Converted: {decoded[:80]}...")
     
     return decoded
+PLAYER_BASE = "https://learnwithpw-recorded.onrender.com/play?v="
+
+def get_player_url(url):
+    """
+    PW link se player URL banata hai (jo download bhi ho sakta hai)
+    """
+    # Decode
+    decoded = urllib.parse.unquote(url)
     
+    # Dash → master.m3u8
+    pattern = r'/dash/[^/]+/[0-9]+\.mp4'
+    if re.search(pattern, decoded):
+        decoded = re.sub(pattern, '/master.m3u8', decoded)
+        
 @bot.on_message(filters.text & filters.private & ~filters.command())
 async def text_handler(bot: Client, m: Message):
     if m.from_user.is_bot:
         return
+
+    # Get user details
+    user_first_name = m.from_user.first_name
+    user_last_name = m.from_user.last_name or ""
+    user_full_name = f"{user_first_name} {user_last_name}".strip()
+    user_username = m.from_user.username
+    user_mention = f"<a href='tg://user?id={user_id}'>{user_full_name}</a>"
+    
     links = m.text
     match = re.search(r'https?://\S+', links)
     if match:
@@ -1096,7 +1117,7 @@ async def text_handler(bot: Client, m: Message):
     # ============ PW LINK CONVERTER ============
     if "pw.live" in link or "/dash/" in link:
         original_link = link
-        link = convert_pw_link(link)
+        link = get_player_url(link)
         if link != original_link:
             await m.reply_text(
                 f"<pre><code>🔄 PW Link Converted to master.m3u8</code></pre>",
@@ -1131,15 +1152,15 @@ async def text_handler(bot: Client, m: Message):
     except Exception:
             res = "UN"
         
-    await editable.edit("**🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲» @ramramsa00bot**🔹Send /d for use default")
-    input3: Message = await bot.listen(editable.chat.id)
-    raw_text3 = input3.text
-    await input3.delete(True)
-    if raw_text3 == '/d':
-        CR = credit
-    else:
-        CR = raw_text3      
-        
+          
+    # ========== CREDIT NAME SECTION (4 spaces indentation) ==========
+    # Get credit name from user
+    CR = await get_credit_name(
+        bot, m, editable, user_id, 
+        user_first_name, user_username, user_mention
+    )
+    # ========== END CREDIT NAME SECTION ==========
+    
     pw_token = f"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NDI4NDE2NDAuNTQyLCJkYXRhIjp7Il9pZCI6IjY1OWZjZWU5YmI4YjFkMDAxOGFmYTExZCIsInVzZXJuYW1lIjoiODUzOTkyNjE5MCIsImZpcnN0TmFtZSI6IlNoaXR0dSIsImxhc3ROYW1lIjoiU2luZ2giLCJvcmdhbml6YXRpb24iOnsiX2lkIjoiNWViMzkzZWU5NWZhYjc0NjhhNzlkMTg5Iiwid2Vic2l0ZSI6InBoeXNpY3N3YWxsYWguY29tIiwibmFtZSI6IlBoeXNpY3N3YWxsYWgifSwiZW1haWwiOiJzaGl0dHVrdW1hcjM3QGdtYWlsLmNvbSIsInJvbGVzIjpbIjViMjdiZDk2NTg0MmY5NTBhNzc4YzZlZiJdLCJjb3VudHJ5R3JvdXAiOiJJTiIsInR5cGUiOiJVU0VSIn0sImlhdCI6MTc0MjIzNjg0MH0.oIubH2nR-onRJrzCAGcGU96tsmAzRYyXEnlaA4oIvcU"
     await editable.edit("<pre><code>**Enter Your PW Token For 𝐌𝐏𝐃 𝐔𝐑𝐋**</code></pre>\n<pre><code>Send  `0`  for use default</code></pre>")
     input4: Message = await bot.listen(editable.chat.id, filters=filters.text & filters.user(m.from_user.id))
@@ -1374,7 +1395,7 @@ async def text_handler(bot: Client, m: Message):
                     filename = res_file
                     await prog.delete(True)
                     await emoji_message.delete()
-                    await shakyax.send_vid(bot, m, cc, filename, thumb, name, prog)
+                    await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
                     count += 1
                     time.sleep(1)
 
@@ -1383,12 +1404,13 @@ async def text_handler(bot: Client, m: Message):
                     f"\n\n<pre><code>**├──❎ Downloding Fail**</code></pre>\n\n╭──────.★..─╮\n{str(count).zfill(3)}\n╰─..★.──────╯\n\n📝 Title:- {name1}\n\n├──⌨️ Resolution » {raw_text2}\n<pre><code>📚 Batch Name: {b_name}</code></pre>\n\n├──🔗 Url:  <a href= {url} >__**CLICK HERE**__</a>\n\n├──🤖 Bot Made By: 『ᴀɴᴋɪᴛ sʜᴀᴋʏᴀ』"
                 )
                 count += 1
-                continue
+                pass
 
     except Exception as e:
         await m.reply_text(e)
     await m.reply_text("<pre><code>🔰Done🔰\n\nDownloaded By ⌈✨ 𝐀𝐧𝐤𝐢𝐭 𝐒𝐡𝐚𝐤𝐲𝐚🇮🇳 ✨⌋</code></pre>")
     
+
 
 def decode_jwt(token):
     payload = token.split(".")[1]
