@@ -424,6 +424,14 @@ async def get_credit_name(bot, m, editable, user_id, user_first_name, user_usern
     
     return CR
 
+
+
+def get_yt_thumb(url):
+    video_id = re.findall(r"(?:v=|\/)([0-9A-Za-z_-]{11})", url)
+    if video_id:
+        return f"https://img.youtube.com/vi/{video_id[0]}/maxresdefault.jpg"
+    return None
+
 @bot.on_message(filters.command(["ankit","deaduser"]) )
 async def txt_handler(bot: Client, m: Message):
     user_id = m.from_user.id
@@ -726,7 +734,8 @@ async def txt_handler(bot: Client, m: Message):
                 
                 elif "youtu" in url:
                     try:
-                        await bot.send_photo(chat_id=m.chat.id, photo=photoyt, caption=ccyt)
+                        thumb = get_yt_thumb(url)
+                        await bot.send_photo(chat_id=m.chat.id, thumb, caption=ccyt)
                         count +=1
                     except Exception as e:
                         await m.reply_text(str(e))    
