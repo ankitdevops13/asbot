@@ -1115,18 +1115,7 @@ async def text_handler(bot: Client, m: Message):
         await m.reply_text("<pre><code>Invalid link format.</code></pre>")
         return
 
-    # ============ PW LINK CONVERTER ============
-    if "pw.live" in link or "/dash/" in link:
-        original_link = link
-        link = get_player_url(link)
-        if link != original_link:
-            await m.reply_text(
-                f"<pre><code>🔄 PW Link Converted to master.m3u8</code></pre>",
-                quote=True
-            )
-    # ===========================================
-    
-    
+
     editable = await m.reply_text(f"<pre><code>**🔹Processing your link...\n🔁Please wait...⏳**</code></pre>")
     await m.delete()
 
@@ -1210,8 +1199,12 @@ async def text_handler(bot: Client, m: Message):
 
             elif 'videos.classplusapp' in url or "tencdn.classplusapp" in url or "alisg-cdn-a.classplusapp.com" in url or "webvideos.classplusapp.com" in url or "media-cdn-alisg.classplusapp.com" in url or "videos.classplusapp" in url or "videos.classplusapp.com" in url or "media-cdn-a.classplusapp" in url or "media-cdn.classplusapp" in url:
              url = f'https://ugxclassplusapi.vercel.app/get/cp/dl?url={url}'  
-                
-            
+
+
+            if "pw.live" in url or "/dash/" in url:
+                original_link = url
+                url = get_player_url(url)
+    
             name1 = links.replace("\t", "").replace(":", "").replace("/", "").replace("+", "").replace("#", "").replace("|", "").replace("@", "").replace("*", "").replace(".", "").replace("https", "").replace("http", "").strip()
             name = f'{name1[:20]}'
             
