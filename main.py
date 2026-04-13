@@ -1093,20 +1093,17 @@ async def text_handler(bot: Client, m: Message):
         await m.reply_text("<pre><code>Invalid link format.</code></pre>")
         return
 
-
-# ============ PW LINK CONVERTER (NEW!) ============
-if "pw.live" in link or "/dash/" in link:
-    original_link = link
-    link = convert_pw_link(link)
-    if link != original_link:
-        # Notify user about conversion
-        await m.reply_text(
-            f"<pre><code>🔄 PW Link Converted!\n\n"
-            f"Original: dash/.../2.mp4\n"
-            f"Converted: master.m3u8</code></pre>",
-            quote=True
-        )
-# ================================================
+    # ============ PW LINK CONVERTER ============
+    if "pw.live" in link or "/dash/" in link:
+        original_link = link
+        link = convert_pw_link(link)
+        if link != original_link:
+            await m.reply_text(
+                f"<pre><code>🔄 PW Link Converted to master.m3u8</code></pre>",
+                quote=True
+            )
+    # ===========================================
+    
     
     editable = await m.reply_text(f"<pre><code>**🔹Processing your link...\n🔁Please wait...⏳**</code></pre>")
     await m.delete()
