@@ -735,7 +735,7 @@ async def txt_handler(bot: Client, m: Message):
                 elif "youtu" in url:
                     try:
                         thumb = get_yt_thumb(url)
-                        await bot.send_photo(chat_id=m.chat.id, thumb, caption=ccyt)
+                        await bot.send_photo(chat_id=m.chat.id, photo=thumb, caption=ccyt)
                         count +=1
                     except Exception as e:
                         await m.reply_text(str(e))    
