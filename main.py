@@ -1096,6 +1096,7 @@ def get_player_url(url):
         
 @bot.on_message(filters.text & filters.private, group=1)
 async def text_handler(bot: Client, m: Message):
+    user_id = m.from_user.id
     if m.from_user.is_bot:
         return
 
