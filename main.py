@@ -1099,15 +1099,11 @@ def is_user_message(m):
     
 @bot.on_message(filters.text & filters.private, group=1)
 async def text_handler(bot: Client, m: Message):
-    user_id = m.from_user.id
-    if m.from_user.is_bot:
-        return
-
+    
     if not is_user_message(m):
         return
-        
-    if message.from_user.is_bot:
-        return
+    user_id = m.from_user.id
+    
     # Get user details
     user_first_name = m.from_user.first_name
     user_last_name = m.from_user.last_name or ""
