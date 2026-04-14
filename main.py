@@ -1094,8 +1094,8 @@ def get_player_url(url):
     if re.search(pattern, decoded):
         decoded = re.sub(pattern, '/master.m3u8', decoded)
 
-def is_user_message(message):
-    return message.from_user and not message.from_user.is_bot
+def is_user_message(m):
+    return m.from_user and not m.from_user.is_bot
     
 @bot.on_message(filters.text & filters.private, group=1)
 async def text_handler(bot: Client, m: Message):
@@ -1103,7 +1103,7 @@ async def text_handler(bot: Client, m: Message):
     if m.from_user.is_bot:
         return
 
-    if not is_user_message(message):
+    if not is_user_message(m):
         return
         
     if message.from_user.is_bot:
