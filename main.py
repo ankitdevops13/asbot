@@ -1093,13 +1093,21 @@ def get_player_url(url):
     pattern = r'/dash/[^/]+/[0-9]+\.mp4'
     if re.search(pattern, decoded):
         decoded = re.sub(pattern, '/master.m3u8', decoded)
-        
+
+def is_user_message(message):
+    return message.from_user and not message.from_user.is_bot
+    
 @bot.on_message(filters.text & filters.private, group=1)
 async def text_handler(bot: Client, m: Message):
     user_id = m.from_user.id
     if m.from_user.is_bot:
         return
 
+    if not is_user_message(message):
+        return
+        
+    if message.from_user.is_bot:
+        return
     # Get user details
     user_first_name = m.from_user.first_name
     user_last_name = m.from_user.last_name or ""
