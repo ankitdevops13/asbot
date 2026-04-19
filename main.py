@@ -426,12 +426,30 @@ async def get_credit_name(bot, m, editable, user_id, user_first_name, user_usern
 
 
 
-def get_yt_thumb(url):
+def get_yt_thumb2(url):
     video_id = re.findall(r"(?:v=|\/)([0-9A-Za-z_-]{11})", url)
     if video_id:
         return f"https://img.youtube.com/vi/{video_id[0]}/maxresdefault.jpg"
     return None
 
+
+async def get_yt_thumb(url):
+    match = re.search(r"(?:v=|\/)([0-9A-Za-z_-]{11})", url)
+    if not match:
+        return None
+
+    video_id = match.group(1)
+
+    hd = f"https://img.youtube.com/vi/{video_id}/maxresdefault.jpg"
+    hq = f"https://img.youtube.com/vi/{video_id}/hqdefault.jpg"
+
+    async with aiohttp.ClientSession() as session:
+        async with session.get(hd) as resp:
+            if resp.status == 200:
+                return hd
+
+    return hq
+    
 @bot.on_message(filters.command(["ankit","deaduser"]) )
 async def txt_handler(bot: Client, m: Message):
     user_id = m.from_user.id
@@ -734,8 +752,8 @@ async def txt_handler(bot: Client, m: Message):
                 
                 elif "youtu" in url:
                     try:
-                        thumb = get_yt_thumb(url)
-                        await bot.send_photo(chat_id=m.chat.id, photo=thumb, caption=ccyt)
+                        ytthumb = get_yt_thumb(url)
+                        await bot.send_photo(chat_id=m.chat.id, photo=ytthumb, caption=ccyt)
                         count +=1
                     except Exception as e:
                         await m.reply_text(str(e))    
@@ -1097,7 +1115,7 @@ def get_player_url(url):
 def is_user_message(m):
     return m.from_user and not m.from_user.is_bot
     
-@bot.on_message(filters.text & filters.private, group=1)
+
 async def text_handler(bot: Client, m: Message):
     
     if not is_user_message(m):
