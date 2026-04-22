@@ -433,7 +433,18 @@ def get_yt_thumb2(url):
     return None
 
 
-async def get_yt_thumb(url):
+
+def get_yt_thumb(url):
+    fallback = "https://www.theproche.com/wp-content/uploads/2022/03/youtube-thumbnail.png"
+
+    video_id = re.findall(r"(?:v=|\/)([0-9A-Za-z_-]{11})", url)
+
+    if video_id:
+        return f"https://img.youtube.com/vi/{video_id[0]}/maxresdefault.jpg"
+
+    return fallback
+    
+async def get_yt_thumb3(url):
     match = re.search(r"(?:v=|\/)([0-9A-Za-z_-]{11})", url)
     if not match:
         return None
@@ -449,6 +460,26 @@ async def get_yt_thumb(url):
                 return hd
 
     return hq
+
+def wake_player():
+    try:
+        requests.get("https://learnwithpw-recorded.onrender.com", timeout=10)
+        time.sleep(8)
+    except:
+        pass
+        
+PLAYER_BASE = "https://learnwithpw-recorded.onrender.com/play?v="
+
+def pw_player(url):
+    decoded = urllib.parse.unquote(url)
+
+    # dash → master.m3u8
+    decoded = re.sub(r'/dash/[^/]+/[0-9]+\.mp4', '/master.m3u8', decoded)
+
+    # encode for player
+    encoded = urllib.parse.quote(decoded, safe="")
+
+    return PLAYER_BASE + encoded
     
 @bot.on_message(filters.command(["ankit","deaduser"]) )
 async def txt_handler(bot: Client, m: Message):
@@ -578,10 +609,7 @@ async def txt_handler(bot: Client, m: Message):
 
                 if "master.m3u8&contentHashIdl=" in url:
                     content = url.split("master.m3u8&contentHashIdl=")[1]
-                
-                
-                    
-                
+            
                 headers = {
                     'host': 'api.classplusapp.com',
                     'x-access-token': f'{raw_text4}',    
@@ -622,7 +650,11 @@ async def txt_handler(bot: Client, m: Message):
             else:
                 print("Invalid Link")
                 
-            
+
+            if "pw.live" in url or "/dash/" in url or "sec-prod-mediacdn" in url:
+             wake_player()
+             url = pw_player(url)
+             print("PW Player URL:", url)
     
             if '/master.mpd' in url:
              url = f"https://master-api-v3.vercel.app/pw/m3u8v2?url={url}&token={raw_text4}&authorization={auth_token}&q={raw_text2}"
