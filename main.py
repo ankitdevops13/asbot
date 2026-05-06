@@ -436,13 +436,42 @@ def get_yt_thumb2(url):
 
 def get_yt_thumb(url):
     fallback = "https://www.theproche.com/wp-content/uploads/2022/03/youtube-thumbnail.png"
-
-    video_id = re.findall(r"(?:v=|\/)([0-9A-Za-z_-]{11})", url)
-
-    if video_id:
-        return f"https://img.youtube.com/vi/{video_id[0]}/maxresdefault.jpg"
-
-    return fallback
+    
+    # Extract video ID from any YouTube URL format
+    video_id = re.findall(
+        r"(?:youtube\.com\/(?:watch\?.*v=|embed\/|v\/|shorts\/|live\/)|youtu\.be\/)([0-9A-Za-z_-]{11})",
+        url
+    )
+    
+    if not video_id:
+        video_id = re.findall(r"([0-9A-Za-z_-]{11})$", url)
+    
+    if not video_id:
+        return fallback
+    
+    vid = video_id[0]
+    
+    # Quality hierarchy (best to worst)
+    qualities = [
+        "maxresdefault.jpg",  # 1280×720 - Max Resolution
+        "sddefault.jpg",      # 640×480  - Standard Definition
+        "hqdefault.jpg",      # 480×360  - High Quality
+        "mqdefault.jpg",      # 320×180  - Medium Quality
+        "default.jpg",        # 120×90   - Default
+    ]
+    
+    # Try each quality until we find one that exists
+    for quality in qualities:
+        thumb_url = f"https://img.youtube.com/vi/{vid}/{quality}"
+        try:
+            response = requests.head(thumb_url, timeout=3)
+            if response.status_code == 200:
+                return thumb_url
+        except:
+            continue
+    
+    # If no quality works (rare), return maxresdefault anyway
+    return f"https://img.youtube.com/vi/{vid}/maxresdefault.jpg"
     
 async def get_yt_thumb3(url):
     match = re.search(r"(?:v=|\/)([0-9A-Za-z_-]{11})", url)
