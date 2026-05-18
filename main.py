@@ -633,12 +633,30 @@ async def txt_handler(bot: Client, m: Message):
 
 
             elif "contentId=" in url or "master.m3u8&contentHashIdl=" in url:
+                # Extract content ID from URL
+                content = url.split("contentId=")[1].strip()
                 
-                content = url.replace("https://", "").split("contentId=")[-1]
-
+                # Remove query params if any
+                content = content.split("&")[0]
+                
+                # Remove .m3u8 suffix safely
+                if content.endswith(".m3u8"):
+                    content = content[:-5]
+                
+                # Remove trailing slash
+                content = content.rstrip("/")
+                
+                # Handle special case for master.m3u8&contentHashIdl=
                 if "master.m3u8&contentHashIdl=" in url:
-                    content = url.split("master.m3u8&contentHashIdl=")[1]
-            
+                    content = url.split("master.m3u8&contentHashIdl=")[1].strip()
+                    content = content.split("&")[0]
+                    if content.endswith(".m3u8"):
+                        content = content[:-5]
+                    content = content.rstrip("/")
+                
+                # URL encode the content ID
+                encoded_content = urllib.parse.quote(content, safe="")
+                
                 headers = {
                     'host': 'api.classplusapp.com',
                     'x-access-token': f'{raw_text4}',    
@@ -656,28 +674,39 @@ async def txt_handler(bot: Client, m: Message):
                     'accept-encoding': 'gzip'
                 }
                 
-                params = {
-                    'contentId': content,
-                    'offlineDownload': "false"
-                }
-
-                response = requests.get(
-                    "https://api.classplusapp.com/cams/uploader/video/jw-signed-url",
-                    params=params,
-                    headers=headers
-                ).json()
+                api_url = f"https://api.classplusapp.com/cams/uploader/video/jw-signed-url?contentId={encoded_content}"
                 
-                if "testbook.com" in url or "classplusapp.com/drm" in url or "media-cdn.classplusapp.com/drm" in url:
-                    final_url = res['drmUrls']['manifestUrl']
-                else:
-                    final_url = response["url"]
+                try:
+                    response = requests.get(api_url, headers=headers, timeout=20)
+                    response_json = response.json()
                     
-                print("\nSigned URL:\n", final_url)
-                print("response I'd\n", content)
-                print("respose", response)
-                print("Final URL\n", final_url)
+                    final_url = None
+                    
+                    if isinstance(response_json, dict):
+                        if response_json.get("url"):
+                            final_url = response_json["url"]
+                        elif response_json.get("drmUrls"):
+                            final_url = response_json["drmUrls"].get("manifestUrl")
+                        elif isinstance(response_json.get("data"), dict):
+                            data = response_json["data"]
+                            if data.get("url"):
+                                final_url = data["url"]
+                            elif data.get("drmUrls"):
+                                final_url = data["drmUrls"].get("manifestUrl")
+                    
+                    if final_url:
+                        url = final_url
+                        print("\nSigned URL:\n", url)
+                        print("Content ID:\n", content)
+                    else:
+                        print("\nFailed to get signed URL")
+                        print("Response:", response_json)
+                        
+                except Exception as e:
+                    print(f"Request Error: {e}")
             else:
                 print("Invalid Link")
+                
                 
 
             if "pw.live" in url or "/dash/" in url or "sec-prod-mediacdn" in url:
