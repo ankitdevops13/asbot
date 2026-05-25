@@ -1,5 +1,5 @@
-FROM python:3.12.0
-RUN apt-get update && apt-get install \
+python:3.12-alpine3.20
+RUN apk add --no-cache \
     gcc \
     libffi-dev \
     musl-dev \
