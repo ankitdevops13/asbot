@@ -1,5 +1,5 @@
 FROM python:3.13.0
-RUN apk add --no-cache \
+RUN apt-get update && apt-get install \
     gcc \
     libffi-dev \
     musl-dev \
