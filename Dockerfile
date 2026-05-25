@@ -1,4 +1,4 @@
-python:3.12-alpine3.20
+FROM python:3.12-alpine3.20
 RUN apk add --no-cache \
     gcc \
     libffi-dev \
