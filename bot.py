@@ -858,7 +858,7 @@ async def txt_handler(bot: Client, m: Message):
              print("PW Player URL:", url)
     
             if '/master.mpd' in url:
-             url = f"https://master-api-v3.vercel.app/pw/m3u8v2?url={url}&token={raw_text4}&authorization={auth_token}&q={raw_text2}"
+             url = f"https://anonymouspwplayer-ce3f42358cca.herokuapp.com/pw?url={url}&token={raw_text4}"
                 
             name1 = links[i][0].replace("\t", "").replace(":", "").replace("/", "").replace("+", "").replace("#", "").replace("|", "").replace("@", "").replace("*", "").replace(".", "").replace("https", "").replace("http", "").strip()
             name = f'{name1[:60]}'
