@@ -248,7 +248,16 @@ def get_signed_url(url, raw_text4):
     except Exception as e:
         print("\nRequest Error:", e)
         return None
-        
+
+# Python - Direct replacement
+def convert_to_m3u8(url):
+    return re.sub(
+        r'transcodedVideos/ALLEN/transcoded_video_x264_5000k_HD',
+        'playlists/ALLEN/x264/master.m3u8',
+        url
+    )
+
+
 @bot.on_message(filters.command("auth") & filters.private)
 async def authorize_user(client: Client, message: Message):
     user_id = message.from_user.id
@@ -852,11 +861,15 @@ async def txt_handler(bot: Client, m: Message):
                 print("Invalid Link")
                 
 
-            if "pw.live" in url or "/dash/" in url or "sec-prod-mediacdn" in url:
+            if "pw.live" in url or "sec-prod-mediacdn" in url:
              wake_player()
              url = pw_player(url)
              print("PW Player URL:", url)
-    
+
+            if 'content.allen.in' in url:
+             url = convert_to_m3u8(url)
+             print("Change Url:", url)
+            
             if '/master.mpd' in url:
              url = f"https://anonymouspwplayer-ce3f42358cca.herokuapp.com/pw?url={url}&token={raw_text4}"
                 
