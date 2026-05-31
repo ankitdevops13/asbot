@@ -257,7 +257,32 @@ def convert_to_m3u8(url):
         url
     )
 
+def convert_url2(url, format_type='m3u8'):
+    path_map = {
+        'm3u8': 'playlists/ALLEN/x264/master.m3u8',
+        'dash': 'playlists/ALLEN/x264/dash.mpd'
+    }
+    
+    return re.sub(
+        r'transcodedVideos/ALLEN/transcoded_video_x264_5000k_HD',
+        path_map.get(format_type, path_map['m3u8']),
+        url
+    )
 
+def convert_url(url, format_type='dash'):  # Default ab DASH
+    path_map = {
+        'dash': 'playlists/ALLEN/x264/dash.mpd',
+        'm3u8': 'playlists/ALLEN/x264/master.m3u8'
+    }
+    
+    return re.sub(
+        r'transcodedVideos/ALLEN/transcoded_video_x264_5000k_HD',
+        path_map.get(format_type, path_map['dash']),
+        url
+    )
+
+
+    
 @bot.on_message(filters.command("auth") & filters.private)
 async def authorize_user(client: Client, message: Message):
     user_id = message.from_user.id
@@ -867,8 +892,11 @@ async def txt_handler(bot: Client, m: Message):
              print("PW Player URL:", url)
 
             if 'content.allen.in' in url:
-             url = convert_to_m3u8(url)
-             print("Change Url:", url)
+             url = convert_url(url, 'dash')
+             fallback_url = convert_url(url, 'm3u8')
+            
+             print("First Change Url:", url)
+             print("Fallback Change url:", fallback_url)
             
             if '/master.mpd' in url:
              url = f"https://anonymouspwplayer-ce3f42358cca.herokuapp.com/pw?url={url}&token={raw_text4}"
